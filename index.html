@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Pintar Akhlak Tahun 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #065f46;
+            border-radius: 4px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="bg-emerald-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-700 p-2.5 rounded-xl shadow-inner border border-emerald-600 flex items-center justify-center">
+                    <i class="fa-solid fa-book-quran text-2xl text-emerald-200"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight">E-Pintar Akhlak Tahun 4</h1>
+                    <p class="text-xs sm:text-sm text-emerald-200 font-medium">Panduan Ulang Kaji & Kuiz Silibus JAIS</p>
+                </div>
+            </div>
+            <!-- Logo badge -->
+            <div class="bg-emerald-900/80 border border-emerald-600/50 px-4 py-1.5 rounded-full flex items-center space-x-2 text-xs sm:text-sm shadow-sm">
+                <i class="fa-solid fa-graduation-cap text-emerald-300"></i>
+                <span class="font-medium tracking-wide text-emerald-100">online.educational1.my</span>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <div class="bg-emerald-900/40 border-t border-emerald-700/50">
+            <div class="max-w-4xl mx-auto px-4 flex justify-around sm:justify-start sm:space-x-4 py-2">
+                <button onclick="switchTab('nota')" id="tab-nota" class="tab-btn flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-all bg-emerald-700 text-white shadow-sm">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Nota Terperinci</span>
+                </button>
+                <button onclick="switchTab('kad')" id="tab-kad" class="tab-btn flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-all text-emerald-100 hover:bg-emerald-800/60">
+                    <i class="fa-solid fa-clone"></i>
+                    <span>Kad Imbasan</span>
+                </button>
+                <button onclick="switchTab('kuiz')" id="tab-kuiz" class="tab-btn flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-all text-emerald-100 hover:bg-emerald-800/60">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Ujian Kuiz</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6">
+
+        <section id="view-nota" class="tab-view space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                <div class="text-center max-w-xl mx-auto mb-6">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Mod Pembelajaran</span>
+                    <h2 class="text-2xl font-bold text-emerald-900 mt-2">Nota Poket & Kronologi Akhlak</h2>
+                    <p class="text-gray-600 text-sm mt-1">Nota ringkas tersusun berpandukan silibus rasmi SRA/KAFA JAIS Tahun 4 (Pelajaran 1 hingga 8).</p>
+                </div>
+
+                <!-- Accordion Lessons List -->
+                <div id="lessons-container" class="space-y-4">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="view-kad" class="tab-view hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                <div class="text-center max-w-xl mx-auto mb-6">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Mod Hafalan & Ingatan</span>
+                    <h2 class="text-2xl font-bold text-emerald-900 mt-2">Kad Imbasan Interaktif (80 Soalan)</h2>
+                    <p class="text-gray-600 text-sm mt-1">Uji ingatan anda dengan 10 kad imbasan khas bagi setiap pelajaran. Tekan kad untuk melihat jawapan!</p>
+                </div>
+
+                <!-- Lesson Selector for Flashcards -->
+                <div class="max-w-md mx-auto mb-6 bg-emerald-50 p-4 rounded-xl border border-emerald-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <label for="flashcard-lesson-select" class="font-medium text-emerald-900 text-sm">Pilih Pelajaran:</label>
+                    <select id="flashcard-lesson-select" onchange="changeFlashcardLesson(this.value)" class="bg-white border border-emerald-300 text-emerald-900 text-sm rounded-lg p-2.5 focus:ring-emerald-500 focus:border-emerald-500 w-full sm:w-auto flex-grow max-w-xs shadow-sm">
+                        <!-- Options generated dynamically -->
+                    </select>
+                </div>
+
+                <!-- Flashcard Widget -->
+                <div class="max-w-xl mx-auto">
+                    <div class="flex justify-between items-center mb-3 text-xs sm:text-sm font-medium text-gray-500 px-1">
+                        <span id="flashcard-counter" class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Kad 1 daripada 10</span>
+                        <span class="text-emerald-700 italic"><i class="fa-solid fa-hand-pointer mr-1"></i> Tekan Kad untuk Jawapan</span>
+                    </div>
+
+                    <div id="flashcard-box" onclick="flipFlashcard()" class="bg-gradient-to-br from-emerald-800 to-emerald-950 text-white rounded-2xl p-8 sm:p-10 shadow-lg cursor-pointer min-h-[260px] flex flex-col justify-between transition-transform duration-300 hover:scale-[1.01] relative overflow-hidden border border-emerald-700">
+                        <div class="flex justify-between items-start">
+                            <span id="flashcard-tag" class="bg-emerald-700/60 text-emerald-200 text-xs px-3 py-1 rounded-lg font-medium tracking-wide">Soalan Pelajaran</span>
+                            <span class="text-emerald-300/70 text-sm"><i class="fa-solid fa-rotate"></i> Klik untuk pusing</span>
+                        </div>
+                        <div class="my-6 text-center">
+                            <h3 id="flashcard-content-title" class="text-xs uppercase tracking-widest text-emerald-300 font-bold mb-2">Soalan</h3>
+                            <p id="flashcard-text" class="text-lg sm:text-xl font-medium leading-relaxed">Memuatkan kad imbasan...</p>
+                        </div>
+                        <div class="text-center text-xs text-emerald-300/80">
+                            Bahagian: <span id="flashcard-side-label" class="font-bold text-white">Soalan</span>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard Controls -->
+                    <div class="flex items-center justify-between mt-6 gap-3">
+                        <button onclick="prevFlashcard()" class="flex items-center space-x-2 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-xl transition-all shadow-sm">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span class="hidden sm:inline">Kad Sebelumnya</span>
+                        </button>
+                        <button onclick="resetFlashcards()" class="flex items-center space-x-2 px-4 py-2.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-medium rounded-xl transition-all shadow-sm">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Ulang Semula</span>
+                        </button>
+                        <button onclick="nextFlashcard()" class="flex items-center space-x-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-medium rounded-xl transition-all shadow-sm">
+                            <span class="hidden sm:inline">Kad Seterusnya</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-kuiz" class="tab-view hidden space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                
+                <!-- Quiz Menu / Selection Screen -->
+                <div id="quiz-menu-screen">
+                    <div class="text-center max-w-xl mx-auto mb-6">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Mod Pentaksiran</span>
+                        <h2 class="text-2xl font-bold text-emerald-900 mt-2">Kuasai Akhlak Sekolah Rendah Agama (SRA / KAFA)</h2>
+                        <p class="text-gray-600 text-sm mt-1">Pilih tajuk pelajaran di bawah untuk memulakan kuiz interaktif berserta maklum balas huraian fakta.</p>
+                    </div>
+
+                    <div class="max-w-xl mx-auto bg-emerald-50/70 border border-emerald-100 rounded-2xl p-5 shadow-sm">
+                        <h3 class="font-bold text-emerald-900 text-sm mb-3 flex items-center">
+                            <i class="fa-solid fa-list-ul mr-2 text-emerald-700"></i> SILA PILIH TAJUK PELAJARAN:
+                        </h3>
+                        <div id="quiz-options-list" class="space-y-2.5">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Active Screen -->
+                <div id="quiz-active-screen" class="hidden">
+                    <!-- Quiz Header Info -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center bg-emerald-50 px-4 py-3 rounded-xl border border-emerald-100 mb-6 gap-3">
+                        <div>
+                            <span id="quiz-active-title" class="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Pelajaran</span>
+                            <h3 id="quiz-active-subtitle" class="font-bold text-emerald-900 text-base">Mod Kuiz</h3>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-white px-3 py-1.5 rounded-lg border border-emerald-200 text-xs font-semibold text-emerald-800 shadow-sm">
+                                <i class="fa-solid fa-medal mr-1 text-amber-500"></i> Skor: <span id="current-score">0</span>
+                            </div>
+                            <div class="bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm">
+                                Soalan <span id="current-q-num">1</span> dari <span id="total-q-num">30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Card -->
+                    <div class="max-w-2xl mx-auto bg-white border border-gray-200 rounded-2xl p-6 shadow-sm mb-6">
+                        <h4 id="question-text" class="text-base sm:text-lg font-semibold text-gray-800 mb-5 leading-relaxed">
+                            Soalan kuiz akan dipaparkan di sini...
+                        </h4>
+
+                        <!-- Options Container -->
+                        <div id="options-container" class="space-y-3">
+                            <!-- Populated via JS -->
+                        </div>
+
+                        <!-- Explanation Box (Immediate Feedback) -->
+                        <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 animate-fadeIn">
+                            <div class="flex items-start space-x-3">
+                                <div id="explanation-icon" class="text-xl mt-0.5">
+                                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-sm text-emerald-900 mb-1">Huraian Fakta:</h5>
+                                    <p id="explanation-text" class="text-xs sm:text-sm text-emerald-800 leading-relaxed">Penerangan fakta kuiz...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Navigation Buttons -->
+                    <div class="max-w-2xl mx-auto flex items-center justify-between">
+                        <button onclick="prevQuizQuestion()" id="btn-prev-q" class="flex items-center space-x-2 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-xl transition-all shadow-sm">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Sebelumnya</span>
+                        </button>
+                        <button onclick="backToQuizMenu()" class="flex items-center space-x-2 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all shadow-sm">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Pilih Tajuk</span>
+                        </button>
+                        <button onclick="nextQuizQuestion()" id="btn-next-q" class="flex items-center space-x-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-medium rounded-xl transition-all shadow-sm">
+                            <span id="next-btn-text">Seterusnya</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Screen -->
+                <div id="quiz-result-screen" class="hidden text-center max-w-lg mx-auto py-6">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-900 mb-1">Tahniah, Kuiz Selesai!</h3>
+                    <p class="text-gray-600 text-sm mb-6">Anda telah menjawab semua soalan dalam ujian ini.</p>
+
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-6 shadow-sm grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-sm">
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Markah / Peratus</span>
+                            <p id="result-percentage" class="text-3xl font-extrabold text-emerald-700 mt-1">0%</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-emerald-100 shadow-sm">
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Betul / Jumlah</span>
+                            <p id="result-score-fraction" class="text-3xl font-extrabold text-emerald-900 mt-1">0 / 30</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <button onclick="restartCurrentQuiz()" class="px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-medium rounded-xl shadow-sm transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Cuba Lagi</span>
+                        </button>
+                        <button onclick="backToQuizMenu()" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-xl shadow-sm transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Pilih Tajuk Lain</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-emerald-900 text-emerald-200 text-center py-6 mt-auto text-xs sm:text-sm border-t border-emerald-800">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="font-medium">E-Pintar Akhlak Tahun 4 • SRA / KAFA Jabatan Agama Islam Selangor (JAIS)</p>
+            <p class="text-emerald-400 mt-1">Dibangunkan khusus untuk kecemerlangan murid sekolah rendah agama.</p>
+        </div>
+    </footer>
+
+    <script>
+        const lessonsData = [
+            {
+                id: 1,
+                title: "Pelajaran 1: Tolong-Menolong Pada Perkara Kebaikan",
+                description: "Mempelajari pengertian, dalil, فضيلة (fadilat) dan عاقبة (akibat) tolong-menolong pada perkara kebaikan.",
+                fakta: [
+                    "Pengertian Tolong-menolong: Saling membantu antara satu sama lain dalam perkara kebaikan untuk diri, agama dan masyarakat.",
+                    "Dalil Naqli: Surah Al-Ma'idah ayat 2 (...وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ وَلَا تَعَاوَنُوا عَلَى الْإِثْمِ وَالْعُدْوَانِ...).",
+                    "Fadilat Tolong-menolong: Merapatkan kasih sayang, dikasihi Allah dan Rasulullah SAW, meringankan beban kerja, serta menghormati antara satu sama lain.",
+                    "Akibat Tidak Tolong-menolong: Dibenci Allah dan Rasul, dibenci ibu bapa dan keluarga, dibenci rakan, guru dan masyarakat, kerja sukar dilaksanakan dengan cepat, melemahkan keharmonian masyarakat."
+                ],
+                tarikhKronologi: "Konsep kerjasama berteraskan takwa dan kepatuhan syarak."
+            },
+            {
+                id: 2,
+                title: "Pelajaran 2: Bertanggungjawab",
+                description: "Mempelajari kesanggupan memikul dan melaksanakan tugas serta kewajipan yang telah diletakkan selaku hamba berpandukan syarak.",
+                fakta: [
+                    "Pengertian Bertanggungjawab: Kesanggupan memikul dan melaksanakan tugas serta kewajipan yang telah diletakkan.",
+                    "Dalil Naqli: Surah Al-Isra' ayat 36 (...إِنَّ السَّمْعَ وَالْبَصَرَ وَالْفُؤَادَ كُلُّ أُولَٰئِكَ كَانَ عَنْهُ مَسْئُولًا).",
+                    "Bahagian Tanggungjawab: A) Tanggungjawab kepada diri sendiri, B) Tanggungjawab kepada Allah SWT, C) Tanggungjawab kepada ibu bapa, D) Tanggungjawab kepada guru, E) Tanggungjawab kepada negara, F) Tanggungjawab kepada masyarakat.",
+                    "Fadilat & Akibat: Memperolehi kejayaan dunia dan akhirat, kerja menjadi sempurna, disayangi Allah dan Rasul."
+                ],
+                tarikhKronologi: "Amanah memikul tugas memacu kejayaan individu dan ummah."
+            },
+            {
+                id: 3,
+                title: "Pelajaran 3: Adab Berjalan",
+                description: "Mendalami adab pergerakan fizikal dari suatu tempat ke tempat lain serta doa memulakan perjalanan.",
+                fakta: [
+                    "Pengertian Berjalan: Pergerakan fizikal dari suatu tempat ke tempat lain sama ada di darat, laut atau udara.",
+                    "Adab Ketika Berjalan: Meminta izin ibu bapa, menutup aurat, memakai kasut, berniat baik, membaca doa, memulakan langkah kanan, merendahkan diri, memelihara pandangan, memberi salam dan memberi laluan kepada yang lebih tua.",
+                    "Doa Memulakan Perjalanan: Surah Al-Zukhruf ayat 13-14 (سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ).",
+                    "Fadilat: Selamat dalam perjalanan, dilindungi Allah, disayangi rakan, maruah terjaga dan mendapat pahala."
+                ],
+                tarikhKronologi: "Keselamatan di jalan raya berpandukan petunjuk sunnah."
+            },
+            {
+                id: 4,
+                title: "Pelajaran 4: Adab Bermain",
+                description: "Panduan aktiviti perseorangan atau berkumpulan secara sukarela mengikut peraturan Islam.",
+                fakta: [
+                    "Pengertian Bermain: Aktiviti perseorangan atau berkumpulan secara sukarela mengikut peraturan.",
+                    "Adab Sebelum, Semasa & Selepas Bermain: Berdoa, bersalaman, bermain di tempat selamat, mematuhi peraturan, menjaga aurat, semangat setia kawan, dan bermaaf-maafan selepas bermain.",
+                    "Perkara Dilarang: Melanggar peraturan, tiada semangat berpasukan, menimbulkan suasana tegang, dan bertaruh.",
+                    "Fadilat: Sihat tubuh badan, memupuk sikap kerjasama, melahirkan sifat sabar, disiplin diri dan menambah sahabat."
+                ],
+                tarikhKronologi: "Rekreasi sihat minda dan fizikal."
+            },
+            {
+                id: 5,
+                title: "Pelajaran 5: Adab Berkomunikasi",
+                description: "Proses pertukaran maklumat dan idea antara dua orang atau lebih dengan beradab.",
+                fakta: [
+                    "Pengertian Berkomunikasi: Proses pertukaran maklumat dan idea antara dua orang atau lebih untuk menghasilkan maklum balas.",
+                    "Adab Berkomunikasi: Memberi salam, meminta izin, memilih kata yang baik, bercakap lemah lembut dengan memandang muka, serta mengelakkan perbuatan biadab.",
+                    "Dalil Naqli: Surah Ali-Imran ayat 159 (فَبِمَا رَحْمَةٍ مِّنَ اللَّهِ لِنتَ لَهُمْ...).",
+                    "Fadilat & Akibat: Maruah terjaga, disayangi masyarakat, mengeratkan silaturahim, melahirkan suasana harmoni."
+                ],
+                tarikhKronologi: "Komunikasi berkesan asas perpaduan ummah."
+            },
+            {
+                id: 6,
+                title: "Pelajaran 6: Adab Berjiran",
+                description: "Menjaga hak orang yang tinggal disekeliling rumah dengan harmoni.",
+                fakta: [
+                    "Pengertian Jiran: Orang yang tinggal disekeliling atau berhampiran dengan tempat tinggal kita.",
+                    "Adab Berjiran: Bertolak ansur, saling menziarahi, menjaga maruah dan harta jiran, menolong ketika memerlukan, mengucapkan tahniah atau takziah.",
+                    "Dalil Naqli: Surah Al-Nisa' ayat 36 (...وَالْجَارِ ذِي الْقُرْبَى وَالْجَارِ الْجُنُبِ...).",
+                    "Fadilat: Disukai Allah dan Rasul, hidup aman dan damai, masyarakat bersatu padu."
+                ],
+                tarikhKronologi: "Jiran sepakat membawa berkat."
+            },
+            {
+                id: 7,
+                title: "Pelajaran 7: Sifat Mahmudah (Sifat Terpuji) - Unit 1: Taubat & Unit 2: Khauf",
+                description: "Mengenali sifat taubat (kembali taat kepada Allah) dan khauf (takut kepada Allah).",
+                fakta: [
+                    "Unit 1 (Taubat): Kembali taat kepada Allah dan menyesal terhadap dosa yang lalu. Dalil: Surah At-Tahrim ayat 8 (يَا أَيُّهَا الَّذِينَ آمَنُوا تُوبُوا إِلَى اللَّهِ تَوْبَةً نَصُوحًا).",
+                    "Cara Bertaubat: Menghentikan maksiat, menyesal, berazam tidak mengulangi, memperbanyak ketaatan dan amal soleh.",
+                    "Unit 2 (Khauf): Perasaan takut kepada Allah yang mendorong seseorang melakukan ketaatan dan meninggalkan larangan.",
+                    "Dalil Khauf: Surah Al-Nazi'at ayat 40-41 (وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ وَنَهَى النَّفْسَ عَنِ الْهَوَىٰ فَإِنَّ الْجَنَّةَ هِيَ الْمَأْوَىٰ)."
+                ],
+                tarikhKronologi: "Penyucian hati menuju keredhaan Ilahi."
+            },
+            {
+                id: 8,
+                title: "Pelajaran 8: Sifat Madmumah (Sifat Keji) - Unit 1: Sharah Al-Ta'am & Unit 2: Sharah Al-Kalam",
+                description: "Mengenali sifat mazmumah gelojoh makan (sharah al-ta'am) dan banyak cakap pada perkara tidak berfaedah (sharah al-kalam).",
+                fakta: [
+                    "Unit 1 (Sharah Al-Ta'am): Makan dengan cara tidak sopan dan berlebihan (gelojoh). Dalil: Surah Al-A'raf ayat 31 (...وَكُلُوا وَاشْرَبُوا وَلَا تُسْرِفُوا...).",
+                    "Akibat Sharah Al-Ta'am: Dibenci Allah, menjejaskan kesihatan tubuh badan, malas, lalai menunaikan ibadah.",
+                    "Unit 2 (Sharah Al-Kalam): Suka bercakap banyak pada perkara tidak berfaedah (bual kosong, bahasa kasar).",
+                    "Dalil: Surah Al-Nisa' ayat 114 (لَّا خَيْرَ فِي كَثِيرٍ مِّن نَّجْوَاهُمْ...). Akibat: Mendapat azab, membuang masa, menimbulkan pergaduhan."
+                ],
+                tarikhKronologi: "Menjauhi sifat tercela menjaga kesucian akhlak."
+            }
+        ];
+
+        const flashcardsData = {
+            1: [
+                { q: "Apakah pengertian tolong-menolong?", a: "Saling membantu antara satu sama lain dalam perkara kebaikan untuk diri, agama dan masyarakat." },
+                { q: "Nyatakan dalil naqli surah tentang tolong-menolong.", a: "Surah Al-Ma'idah ayat 2 (...وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ...)" },
+                { q: "Sebutkan 1 fadilat tolong-menolong.", a: "Merapatkan kasih sayang." },
+                { q: "Sebutkan 1 lagi fadilat tolong-menolong.", a: "Dikasihi Allah dan Rasulullah SAW." },
+                { q: "Apakah kesan kerja jika bertolong-menolong?", a: "Kerja yang berat menjadi ringan." },
+                { q: "Apakah akibat tidak tolong-menolong?", a: "Dibenci Allah dan Rasul, serta dibenci ibu bapa dan keluarga." },
+                { q: "Apakah akibat kepada masyarakat jika tiada tolong-menolong?", a: "Melemahkan keharmonian masyarakat." },
+                { q: "Bolehkah kita menolong dalam perkara dosa?", a: "Tidak boleh, dilarang sama sekali berdasarkan Surah Al-Ma'idah." },
+                { q: "Apakah nilai murni tolong-menolong?", a: "Bantu-membantu dan bersepakat." },
+                { q: "Mengapa tolong-menolong digalakkan dalam Islam?", a: "Kerana ia membawa kepada keberkatan dan perpaduan." }
+            ],
+            2: [
+                { q: "Apakah pengertian bertanggungjawab?", a: "Kesanggupan memikul dan melaksanakan tugas serta kewajipan yang telah diletakkan." },
+                { q: "Nyatakan dalil surah tentang tanggungjawab pendengaran dan penglihatan.", a: "Surah Al-Isra' ayat 36 (...إِنَّ السَّمْعَ وَالْبَصَرَ وَالْفُؤَادَ...)" },
+                { q: "Sebutkan satu bentuk tanggungjawab terhadap diri sendiri.", a: "Menjaga perintah Allah dan menjauhi larangan-Nya." },
+                { q: "Sebutkan tanggungjawab terhadap ibu bapa.", a: "Mendoakan kesejahteraan, berkata lemah lembut, serta taat kepada mereka." },
+                { q: "Apakah tanggungjawab murid kepada guru?", a: "Menumpukan perhatian ketika guru mengajar dan mematuhi arahan yang berfaedah." },
+                { q: "Apakah tanggungjawab kepada negara?", a: "Setia kepada negara dan menjaga harta benda awam." },
+                { q: "Apakah fadilat melaksanakan tanggungjawab?", a: "Disayangi Allah, Rasul, ibu bapa dan masyarakat." },
+                { q: "Apakah akibat mengabaikan tanggungjawab?", a: "Kerja tidak sempurna dan mendapat kemurkaan Allah." },
+                { q: "Adakah bertanggjawab menjamin kejayaan?", a: "Ya, bertanggungjawab kunci kejayaan di dunia dan akhirat." },
+                { q: "Apakah amalan harian berkaitan tanggungjawab?", a: "Sentiasa menunaikan tanggungjawab dengan penuh amanah." }
+            ],
+            3: [
+                { q: "Apakah pengertian berjalan menurut Islam?", a: "Pergerakan fizikal dari suatu tempat ke tempat lain sama ada di darat, laut atau udara." },
+                { q: "Sebutkan 1 adab sebelum keluar rumah.", a: "Meminta izin daripada ibu bapa." },
+                { q: "Apakah pakaian yang wajib ketika berjalan?", a: "Menutup aurat dan memakai kasut." },
+                { q: "Bagaimanakah niat ketika berjalan?", a: "Berniat dan berjalan dengan tujuan yang baik." },
+                { q: "Apakah doa ketika memulakan perjalanan?", a: "Surah Al-Zukhruf ayat 13-14 (سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا...)" },
+                { q: "Kaki manakah yang harus didahulukan ketika melangkah?", a: "Melangkah dengan kaki kanan." },
+                { q: "Apakah yang perlu dipelihara semasa pandangan?", a: "Menjaga pandangan daripada melihat perkara maksiat." },
+                { q: "Sebutkan 1 fadilat adab berjalan.", a: "Selamat dalam perjalanan dan dilindungi Allah daripada bahaya." },
+                { q: "Apakah akibat tidak beradab ketika berjalan?", a: "Terdedah kepada bahaya dan kemalangan." },
+                { q: "Apakah kelebihan memberi laluan kepada orang tua?", a: "Mendapat pahala dan dihormati." }
+            ],
+            4: [
+                { q: "Apakah pengertian bermain?", a: "Aktiviti perseorangan atau berkumpulan secara sukarela mengikut peraturan." },
+                { q: "Sebutkan adab sebelum bermain.", a: "Berdoa sebelum bermain dan bersalaman sesama rakan." },
+                { q: "Di manakah tempat yang sesuai untuk bermain?", a: "Bermain di tempat yang sesuai dan selamat." },
+                { q: "Apakah hukum bertaruh dalam permainan?", a: "Dilarang dan haram." },
+                { q: "Sebutkan 1 perkara dilarang ketika bermain.", a: "Melanggar peraturan permainan atau menimbulkan suasana tegang." },
+                { q: "Sebutkan fadilat beradab ketika bermain.", a: "Sihat tubuh badan dan sihat akal fikiran." },
+                { q: "Apakah sikap yang dipupuk semasa bermain berpasukan?", a: "Semangat kerjasama dan toleransi." },
+                { q: "Apakah akibat tidak beradab ketika bermain?", a: "Menimbulkan pergaduhan dan permusuhan." },
+                { q: "Bagaimanakah sikap selepas tamat permainan?", a: "Bermaaf-maafan antara satu sama lain." },
+                { q: "Apakah peribahasa tentang kesihatan badan?", a: "Akal yang sejahtera daripada badan yang sihat." }
+            ],
+            5: [
+                { q: "Apakah pengertian berkomunikasi?", a: "Proses pertukaran maklumat dan idea antara dua orang atau lebih untuk menghasilkan maklum balas." },
+                { q: "Bagaimanakah cara memulakan komunikasi menurut Islam?", a: "Memberi salam atau ucapan selamat terlebih dahulu." },
+                { q: "Apakah dalil surah tentang berlemah lembut dalam komunikasi?", a: "Surah Ali-Imran ayat 159 (فَبِمَا رَحْمَةٍ مِّنَ اللَّهِ لِنتَ لَهُمْ...)" },
+                { q: "Sebutkan adab ketika bercakap.", a: "Bercakap dengan nada lembut, jelas dan memandang muka." },
+                { q: "Apakah amalan komunikasi biadab?", a: "Menggunakan bahasa kasar, mencarut dan menyakiti hati orang." },
+                { q: "Apakah fadilat beradab ketika berkomunikasi?", a: "Maruah terjaga dan disayangi masyarakat." },
+                { q: "Apakah akibat komunikasi biadab?", a: "Dimurkai Allah serta dibenci oleh rakan dan keluarga." },
+                { q: "Mengapa kita dilarang memotong perbualan orang lain?", a: "Kerana ia adalah adab komunikasi yang buruk." },
+                { q: "Apakah sifat lidah yang dicela dalam Islam?", a: "Lidah bercabang atau suka menipu." },
+                { q: "Bagaimanakah amalan harian komunikasi?", a: "Sentiasa bersopan santun dan berkata benar." }
+            ],
+            6: [
+                { q: "Siapakah yang dimaksudkan dengan jiran?", a: "Orang yang tinggal disekeliling atau berhampiran dengan tempat tinggal kita." },
+                { q: "Sebutkan dalil al-Quran tentang adab berjiran.", a: "Surah Al-Nisa' ayat 36 (...وَالْجَارِ ذِي الْقُرْبَىٰ وَالْجَارِ الْجُنُبِ...)" },
+                { q: "Sebutkan 1 adab berjiran.", a: "Saling menziarahi jiran dan bertolak ansur." },
+                { q: "Bagaimanakah cara membantu jiran yang kesusahan?", a: "Menghulurkan bantuan segera apabila diperlukan." },
+                { q: "Apakah yang perlu dilakukan apabila jiran mendapat nikmat?", a: "Mengucapkan tahniah." },
+                { q: "Apakah yang perlu dilakukan apabila jiran ditimpa musibah?", a: "Mengucapkan takziah dan memberi sokongan." },
+                { q: "Apakah fadilat beradab dengan jiran?", a: "Hidup aman, damai dan disukai Allah." },
+                { q: "Apakah akibat tidak beradab dengan jiran?", a: "Kehidupan tidak tenang dan masyarakat berpecah-belah." },
+                { q: "Apakah peribahasa tentang jiran terdekat?", a: "Jiran sepakat membawa berkat." },
+                { q: "Bagaimanakah amalan harian terhadap jiran?", a: "Sentiasa menghormati hak jiran tetangga." }
+            ],
+            7: [
+                { q: "Apakah pengertian taubat?", a: "Kembali taat kepada Allah dan menyesal terhadap dosa yang telah dilakukan." },
+                { q: "Apakah dalil surah tentang taubat nasuha?", a: "Surah At-Tahrim ayat 8 (يَا أَيُّهَا الَّذِينَ آمَنُوا تُوبُوا إِلَى اللَّهِ تَوْبَةً نَصُوحًا)" },
+                { q: "Sebutkan 1 cara bertaubat.", a: "Menghentikan perbuatan maksiat dengan segera." },
+                { q: "Apakah syarat penting taubat diterima?", a: "Menyesal bersungguh-sungguh dan berazam tidak mengulangi." },
+                { q: "Apakah pengertian khauf?", a: "Perasaan takut kepada Allah yang mendorong melakukan ketaatan." },
+                { q: "Apakah dalil surah tentang khauf?", a: "Surah Al-Nazi'at ayat 40-41 (وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ...)" },
+                { q: "Sebutkan 1 cara memupuk sifat khauf.", a: "Sentiasa mengingati mati dan mendalami ilmu agama." },
+                { q: "Apakah fadilat bertaubat dan khauf?", a: "Mendapat petunjuk, rahmat, dan disayangi Allah." },
+                { q: "Apakah akibat tidak bertaubat?", a: "Hidup dalam ketakutan dan terseksa di akhirat." },
+                { q: "Apakah zikir harian untuk memohon keampunan?", a: "Astaghfirullahal 'Azim..." }
+            ],
+            8: [
+                { q: "Apakah pengertian Sharah Al-Ta'am?", a: "Makan dengan cara tidak sopan dan berlebihan (gelojoh)." },
+                { q: "Sebutkan dalil larangan berlebih-lebihan dalam makan.", a: "Surah Al-A'raf ayat 31 (...وَكُلُوا وَاشْرَبُوا وَلَا تُسْرِفُوا...)" },
+                { q: "Sebutkan 1 akibat gelojoh makan.", a: "Menjejaskan kesihatan tubuh badan dan malas." },
+                { q: "Apakah pengertian Sharah Al-Kalam?", a: "Suka bercakap banyak pada perkara tidak berfaedah." },
+                { q: "Sebutkan dalil larangan banyak cakap kosong.", a: "Surah Al-Nisa' ayat 114 (لَّا خَيْرَ فِي كَثِيرٍ مِّن نَّجْوَاهُمْ...)" },
+                { q: "Sebutkan 1 akibat Sharah Al-Kalam.", a: "Mendapat azab dan menimbulkan pergaduhan." },
+                { q: "Bagaimanakah cara merawat sifat Sharah Al-Ta'am?", a: "Makan secara sederhana dan mengikut sunnah." },
+                { q: "Bagaimanakah cara mengatasi Sharah Al-Kalam?", a: "Berfikir dahulu sebelum bercakap." },
+                { q: "Apakah fadilat menjauhi sifat mazmumah ini?", a: "Mendapat keampunan Allah dan disayangi masyarakat." },
+                { q: "Apakah peribahasa tentang menjaga bahasa?", a: "Terlanjur perahu boleh diundur, terlanjur kata buruk padahnya." }
+            ]
+        };
+
+        const quizBank = {
+            1: [
+                { q: "Apakah pengertian tolong-menolong dalam silibus Akhlak JAIS Tahun 4?", options: ["Saling membantu dalam perkara kebaikan", "Bekerja sama dalam perbuatan dosa", "Berlumba-lumba mencari harta dunia", "Berdiam diri daripada membantu orang"], answer: 0, explanation: "Tolong-menolong ialah saling membantu antara satu sama lain dalam perkara kebaikan untuk diri, agama dan masyarakat." },
+                { q: "Surah Al-Ma'idah ayat 2 menyentuh tentang suruhan berbuat apa?", options: ["Berlumba lari di padang", "Tolong-menolong pada kebaikan dan takwa", "Berniaga secara besar-besaran", "Bercuti ke luar negara"], answer: 1, explanation: "Dalil naqli tolong-menolong terdapat dalam Surah Al-Ma'idah ayat 2." },
+                { q: "Antara berikut, yang manakah fadilat tolong-menolong?", options: ["Menimbulkan permusuhan", "Merapatkan kasih sayang", "Memperlahankan tugasan", "Dibenci oleh masyarakat"], answer: 1, explanation: "Fadilat tolong-menolong ialah merapatkan kasih sayang dan dikasihi Allah SWT." },
+                { q: "Apakah akibat jika seseorang tidak mengamalkan tolong-menolong?", options: ["Kerja cepat siap", "Disayangi oleh rakan", "Dibenci Allah dan Rasul", "Mendapat ganjaran pahala"], answer: 2, explanation: "Akibat tidak tolong-menolong termasuklah dibenci Allah, Rasul, ibu bapa dan masyarakat." },
+                { q: "Bolehkah kita menolong rakan dalam perbuatan maksiat?", options: ["Boleh jika diupah", "Boleh jika rakan memaksa", "Tidak boleh sama sekali", "Harus sekiranya kasihan"], answer: 2, explanation: "Islam melarang keras bertolong-menolong dalam perkara dosa dan permusuhan." },
+                { q: "Apakah kesan terhadap kerja berat apabila dilakukan secara tolong-menolong?", options: ["Menjadi semakin susah", "Menjadi lebih ringan", "Ditinggalkan begitu sahaja", "Memerlukan masa lebih lama"], answer: 1, explanation: "Antara fadilatnya ialah kerja yang berat menjadi ringan." },
+                { q: "Siapakah yang akan membenci individu yang enggan tolong-menolong dalam kebaikan?", options: ["Allah dan Rasul serta masyarakat", "Hanya musuh Islam sahaja", "Tiada sesiapa yang peduli", "Pihak berkuasa tempatan"], answer: 0, explanation: "Individu yang ingkar akan dimurkai Allah serta dibenci oleh ibu bapa, guru dan masyarakat." },
+                { q: "Mengapa kerjasama dalam kebaikan sangat dituntut di sekolah?", options: ["Supaya cepat dibuang sekolah", "Supaya kelas menjadi kotor", "Supaya keharmonian terjaga", "Supaya guru marah"], answer: 2, explanation: "Kerjasama memperkukuhkan keharmonian dan ukhuwah sesama warga sekolah." },
+                { q: "Apakah hukum asal tolong-menolong pada perkara kebaikan?", options: ["Haram", "Makruh", "Sunat / Dituntut", "Harus sahaja"], answer: 2, explanation: "Amalan mulia ini sangat dituntut dalam membina masyarakat berakhlak." },
+                { q: "Apakah maksud 'al-birru' dalam ayat surah Al-Ma'idah ayat 2?", options: ["Dosa", "Kebaikan", "Permusuhan", "Kemusnahan"], answer: 1, explanation: "'Al-birru' bermaksud kebaikan dan kebajikan." },
+                { q: "Manakah penyataan yang benar mengenai tolong-menolong?", options: ["Meringankan beban orang lain", "Menyusahkan kehidupan jiran", "Memupuk sifat mementingkan diri", "Menambah bilangan musuh"], answer: 0, explanation: "Tolong-menolong meringankan beban kesusahan rakan atau jiran." },
+                { q: "Apakah balasan bagi orang yang suka membantu dalam kebaikan?", options: ["Dimasukkan ke dalam neraka", "Mendapat pahala dan kasih sayang Allah", "Dipulaukan oleh masyarakat", "Mendapat kemurkaan guru"], answer: 1, explanation: "Allah menjanjikan pahala dan kasih sayang kepada hamba-Nya yang suka berbuat baik." },
+                { q: "Bagaimanakah cara menolong ibu bapa di rumah?", options: ["Membiarkan kerja rumah tertunggak", "Membantu mengemas rumah", "Meminta duit setiap hari", "Keluar rumah tanpa kebenaran"], answer: 1, explanation: "Membantu ibu bapa mengemas rumah adalah bentuk tolong-menolong yang terpuji." },
+                { q: "Apakah kesan tolong-menolong terhadap perpaduan kaum?", options: ["Memecahbelahkan masyarakat", "Merapatkan jurang perpaduan", "Menimbulkan ketakutan", "Mewujudkan persengketaan"], answer: 1, explanation: "Kerjasama erat melahirkan perpaduan masyarakat yang cemerlang." },
+                { q: "Adakah amalan tolong-menolong perlukan balasan wang?", options: ["Wajib dibayar", "Hanya jika kaya", "Dilakukan dengan ikhlas", "Bergantung kepada perjanjian"], answer: 2, explanation: "Amalan mulia harus dilakukan dengan ikhlas kerana Allah." },
+                { q: "Apakah erti 'Al-Ithmi' dalam konteks larangan agama?", options: ["Kebajikan", "Dosa / Maksiat", "Sedekah", "Ibadah solat"], answer: 1, explanation: "'Al-Ithmi' merujuk kepada dosa dan perkara terlarang." },
+                { q: "Mengapa masyarakat yang tiada semangat tolong-menolong mudah runtuh?", options: ["Kerana wujud perpaduan utuh", "Kerana mementingkan diri sendiri", "Kerana rakyat terlalu kaya", "Kerana banyak kemudahan awam"], answer: 1, explanation: "Sikap mementingkan diri melemahkan keharmonian sesebuah masyarakat." },
+                { q: "Apakah sikap yang perlu ada semasa menolong rakan yang lemah dalam pelajaran?", options: ["Mengata kekurangannya", "Mengajar dengan sabar", "Membiarkan dia gagal", "Meniru kertas jawapannya"], answer: 1, explanation: "Mengajar dengan sabar adalah sifat terpuji." },
+                { q: "Siapakah contoh teladan terulung dalam amalan tolong-menolong?", options: ["Nabi Muhammad SAW", "Musuh Islam", "Tokoh kartun", "Orang yang sombong"], answer: 0, explanation: "Nabi Muhammad SAW adalah contoh terbaik dalam membantu umat." },
+                { q: "Apakah perasaan orang yang dibantu oleh kita?", options: ["Sedih dan kecewa", "Gembira dan dihargai", "Marah dan benci", "Bosan melihat kita"], answer: 1, explanation: "Bantuan tulus ikhlas akan membahagiakan penerima." },
+                { q: "Manakah berikut adalah contoh tolong-menolong di sekolah?", options: ["Berlawan dalam kelas", "Mengutip sampah bersama", "Ponteng kelas agama", "Menyembunyikan buku rakan"], answer: 1, explanation: "Mengutip sampah bersama menjaga kebersihan sekolah." },
+                { q: "Apakah hukum membantu orang yang dizalimi?", options: ["Wajib", "Haram", "Makruh", "Harus"], answer: 0, explanation: "Membantu mangsa kezaliman adalah satu kewajipan." },
+                { q: "Bagaimanakah sikap murid yang mengamalkan silibus Pelajaran 1?", options: ["Suka menyusahkan guru", "Sentiasa ringan tulang", "Pemalas dan sombong", "Suka bertengkar"], answer: 1, explanation: "Murid yang berakhlak sentiasa ringan tulang membantu." },
+                { q: "Apakah ganjaran di akhirat bagi pemberi bantuan kebaikan?", options: ["Azab yang pedih", "Syurga dan rahmat Allah", "Kerugian besar", "Kemurkaan abadi"], answer: 1, explanation: "Amalan soleh membawa ke syurga." },
+                { q: "Mengapa dilarang tolong-menolong dalam mencuri?", options: ["Kerana itu perbuatan mulia", "Kerana ia adalah dosa dan kejahatan", "Kerana ia disukai polis", "Kerana tiada sesiapa tahu"], answer: 1, explanation: "Mencuri adalah dosa besar." },
+                { q: "Apakah iktibar daripada Pelajaran 1 Akhlak Tahun 4?", options: ["Hidup sendiri tanpa kawan", "Sentiasa sepakat dalam kebaikan", "Mengutamakan diri sendiri", "Menjauhi semua orang"], answer: 1, explanation: "Sepakat membawa berkat dan kejayaan." },
+                { q: "Bagaimana memupuk budaya tolong-menolong sejak kecil?", options: ["Melatih diri berbuat baik setiap hari", "Menunggu disuruh ibu bapa", "Meminta upah setiap kali menolong", "Menolak suruhan guru"], answer: 0, explanation: "Amalan murni dipupuk sejak kecil melalui latihan harian." },
+                { q: "Apakah kesan positif kepada sekolah jika semua murid tolong-menolong?", options: ["Sekolah menjadi ceria dan harmoni", "Sekolah menjadi kotor", "Murid sering bergaduh", "Guru berasa terbeban"], answer: 0, explanation: "Kerjasama melahirkan persekitaran sekolah yang cemerlang." },
+                { q: "Manakah kata hikmah berkaitan kerjasama?", options: ["Bagai aur dengan tebing", "Kalah menjadi arang", "Nasi sudah menjadi bubur", "Air dicincang tak akan putus"], answer: 0, explanation: "Peribahasa 'bagai aur dengan tebing' menggambarkan tolong-menolong." },
+                { q: "Apakah kesimpulan tajuk Tolong-Menolong Pada Perkara Kebaikan?", options: ["Asas kebahagiaan hidup di dunia dan akhirat", "Amalan yang merugikan masa", "Perkara yang boleh diabaikan", "Tanggungjawab sebelah pihak sahaja"], answer: 0, explanation: "Amalan ini membawa kebahagiaan dunia akhirat." }
+            ],
+            2: [
+                { q: "Apakah pengertian bertanggungjawab menurut JAIS?", options: ["Kesanggupan memikul dan melaksanakan tugas", "Sikap melepaskan diri daripada kerja", "Tindakan mengarahkan orang lain", "Suka menangguhkan kerja sekolah"], answer: 0, explanation: "Bertanggungjawab ialah kesanggupan memikul dan melaksanakan tugas serta kewajipan." },
+                { q: "Surah Al-Isra' ayat 36 menerangkan bahawa pendengaran dan penglihatan akan disoal di mana?", options: ["Di mahkamah dunia", "Di hadapan Allah SWT (Mahkamah Ilahi)", "Di balai polis", "Di sekolah agama"], answer: 1, explanation: "Segala pendengaran, penglihatan dan hati akan disoal kelak di akhirat." },
+                { q: "Berapakah pecahan utama skop tanggungjawab yang dipelajari dalam Pelajaran 2?", options: ["2 bahagian sahaja", "4 bahagian", "6 bahagian penting", "10 bahagian"], answer: 2, explanation: "Terdapat 6 skop tanggungjawab: Diri sendiri, Allah, ibu bapa, guru, negara dan masyarakat." },
+                { q: "Apakah bentuk tanggungjawab terhadap diri sendiri?", options: ["Melakukan perkara dilarang", "Menjaga perintah Allah dan menjauhi larangan", "Merosakkan kesihatan fizikal", "Mengabaikan pelajaran harian"], answer: 1, explanation: "Tanggungjawab diri ialah menaati perintah Allah dan menjaga maruah." },
+                { q: "Bagaimanakah cara menunaikan tanggungjawab kepada ibu bapa?", options: ["Menengking ketika disuruh", "Mendoakan kesejahteraan dan berkata lembut", "Keluar rumah tanpa izin", "Meminta wang secara paksa"], answer: 1, explanation: "Anak bertanggungjawab mendoakan ibu bapa dan bertutur dengan sopan." },
+                { q: "Apakah tanggungjawab seorang murid di sekolah?", options: ["Ponteng kelas", "Menumpukan perhatian ketika guru mengajar", "Membuat bising semasa belajar", "Rosakkan harta benda sekolah"], answer: 1, explanation: "Murid bertanggungjawab mendengar ajaran guru dan mematuhi peraturan." },
+                { q: "Apakah bentuk tanggungjawab kepada negara Malaysia?", options: ["Mencemar nama baik negara", "Setia dan menjaga harta benda awam", "Merosakkan kemudahan taman", "Membenci keamanan negara"], answer: 1, explanation: "Rakyat bertanggungjawab menjaga keamanan dan harta benda awam." },
+                { q: "Apakah akibat mengabaikan tanggungjawab sebagai hamba Allah?", options: ["Mendapat kejayaan cemerlang", "Mendapat kemurkaan Allah di akhirat", "Dipuji oleh semua rakan", "Hidup sentiasa tenang"], answer: 1, explanation: "Pengabaian amanah membawa kepada kemurkaan Ilahi." },
+                { q: "Apakah fadilat melaksanakan tanggungjawab dengan sempurna?", options: ["Kerja terbengkalai", "Dimurkai masyarakat", "Disayangi Allah, Rasul dan masyarakat", "Hidup dalam kemalasan"], answer: 2, explanation: "Tugas yang sempurna melahirkan insan disayangi Allah." },
+                { q: "Apakah senjata utama dalam menunaikan tanggungjawab?", options: ["Sifat pemalas", "Sifat amanah dan jujur", "Perasaan riak", "Sikap bertangguh"], answer: 1, explanation: "Amanah adalah teras pelaksanaan tanggungjawab." },
+                { q: "Mengapa manusia diberikan akal fikiran oleh Allah?", options: ["Untuk memikul tanggungjawab taklif", "Untuk tidur sepanjang hari", "Untuk membuli rakan sekolah", "Untuk melanggar peraturan"], answer: 0, explanation: "Akal membezakan manusia dengan haiwan untuk mengalas tanggungjawab." },
+                { q: "Apakah hukum melaksanakan tanggungjawab yang diamanahkan?", options: ["Haram", "Wajib", "Makruh", "Harus"], answer: 1, explanation: "Menunaikan amanah hukumnya wajib." },
+                { q: "Bagaimanakah sikap pekerja yang bertanggungjawab?", options: ["Datang lewat dan tidur", "Menyihatkan tubuh badan pekerja", "Suka menipu majikan", "Mencuri harta pejabat"], answer: 1, explanation: "Pekerja beramanah menyiapkan tugas dengan cemerlang." },
+                { q: "Apakah akibat buruk jika ketua keluarga lari daripada tanggungjawab?", options: ["Keluarga bahagia", "Anak-anak terabai dan terpesong", "Rumah tangga harmoni", "Pencapaian keluarga meningkat"], answer: 1, explanation: "Pengabaian ketua keluarga merosakkan keharmonian." },
+                { q: "Manakah contoh tanggungjawab kepada masyarakat?", options: ["Menyampah dengan jiran", "Menjaga kebersihan taman perumahan", "Membuang sampah di jalan", "Membuat bising malam hari"], answer: 1, explanation: "Menjaga kebersihan taman adalah tanggungjawab sosial." },
+                { q: "Apakah maksud sifat 'Amanah'?", options: ["Menipu kepercayaan orang", "Menjaga janji dan tugas dengan jujur", "Mengambil hak orang lain", "Bersikap sombong"], answer: 1, explanation: "Amanah bermaksud jujur dan menepati kepercayaan." },
+                { q: "Apakah kesan buruk merokok kepada diri sendiri dalam Pelajaran 2?", options: ["Menyihatkan tubuh badan", "Melanggar tanggungjawab menjaga kesihatan diri", "Mendapat pahala sunat", "Menambah tenaga fizikal"], answer: 1, explanation: "Merokok merosakkan kesihatan diri yang diamanahkan Allah." },
+                { q: "Bagaimana cara menunaikan taat setia kepada guru?", options: ["Melawan cakap guru", "Mendoakan kesejahteraan guru", "Membuang buku guru", "Mencuri pen guru"], answer: 1, explanation: "Mendoakan guru adalah adab mulia." },
+                { q: "Apakah balasan di akhirat bagi orang yang khianat amanah?", options: ["Masuk syurga tingkat atas", "Mendapat azab yang pedih", "Diberi hadiah istimewa", "Dipuji para malaikat"], answer: 1, explanation: "Khianat adalah sifat mazmumah yang diazab." },
+                { q: "Mengapa kita perlu bertanggungjawab menjaga harta benda sekolah?", options: ["Supaya cepat rosak", "Supaya dapat digunakan oleh murid lain", "Supaya guru denda kita", "Supaya sekolah ditutup"], answer: 1, explanation: "Kemudahan sekolah hak bersama untuk dijaga." },
+                { q: "Apakah kaitan antara iman dan tanggungjawab?", options: ["Tiada kaitan langsung", "Iman yang kuat mendorong seseorang laksana tanggungjawab", "Orang beriman suka lari tugas", "Tanggungjawab tidak perlukan iman"], answer: 1, explanation: "Kekuatan iman mencerminkan kualiti tanggungjawab seseorang." },
+                { q: "Manakah amalan harian murid yang bertanggungjawab?", options: ["Mengulang kaji pelajaran dan solat awal waktu", "Bermain game sampai subuh", "Tidur dalam dewan peperiksaan", "Tidak pernah siapkan kerja rumah"], answer: 0, explanation: "Solat dan belajar adalah tugas hakiki murid." },
+                { q: "Apakah erti 'Mas'ula' dalam surah Al-Isra' ayat 36?", options: ["Diminta dipertanggungjawab", "Dibiarkan begitu sahaja", "Diberi kebebasan mutlak", "Mendapat pujian ramai"], answer: 0, explanation: "Segala nikmat pendengaran, penglihatan dan hati diminta dipertanggungjawab." },
+                { q: "Bagaimana cara kita menjaga nikmat mata dengan betul?", options: ["Melihat maksiat di internet", "Melihat ayat suci dan ilmu bermanfaat", "Menutup mata selamanya", "Melihat orang dalam kesusahan tanpa bantu"], answer: 1, explanation: "Menggunakan mata ke arah ketaatan." },
+                { q: "Apakah kesan jika semua rakyat laksanakan tanggungjawab pada negara?", options: ["Negara aman, maju dan harmoni", "Negara berlaku kekacauan", "Negara jatuh bankrap", "Rakyat hidup melarat"], answer: 0, explanation: "Tanggungjawab bersama memacu kemajuan negara." },
+                { q: "Adakah kanak-kanak berumur 10 tahun sudah ada tanggungjawab agama?", options: ["Belum perlu solat", "Sudah mula dilatih mukallaf/tanggungjawab", "Hanya perlu main sahaja", "Tiada apa-apa kewajipan"], answer: 1, explanation: "Tahap umur 4 sekolah rendah mula dibimbing disiplin syariat." },
+                { q: "Apakah perasaan ibu bapa apabila anak menunaikan tanggungjawab belajar?", options: ["Sangat sedih", "Bangga dan bersyukur", "Marah dan kecewa", "Benci melihat kejayaan"], answer: 1, explanation: "Kejayaan anak membahagiakan ibu bapa." },
+                { q: "Bagaimana sifat amanah menaikkan imej diri?", options: ["Dipandang rendah orang", "Diberi kepercayaan tinggi oleh masyarakat", "Dijauhi rakan taulan", "Dibenci majikan"], answer: 1, explanation: "Amanah mendatangkan keyakinan ramai." },
+                { q: "Apakah pengajaran utama Pelajaran 2?", options: ["Hidup tanpa pengurusan masa", "Setiap tugas di dunia ada balasannya di akhirat", "Mengabaikan perintah agama", "Mementingkan hiburan semata"], answer: 1, explanation: "Tanggungjawab membawa keadilan mutlak." },
+                { q: "Apakah kesimpulan sifat bertanggungjawab?", options: ["Peneraju kejayaan individu dan ummah", "Amalan sia-sia", "Beban yang menyusahkan", "Sifat mazmumah"], answer: 0, explanation: "Tanggungjawab kunci kejayaan hakiki." }
+            ],
+            3: [
+                { q: "Apakah pengertian berjalan?", options: ["Bergerak fizikal dari suatu tempat ke tempat lain", "Berlari kencang dalam kelas", "Tidur di atas katil", "Duduk diam di atas kerusi"], answer: 0, explanation: "Berjalan ialah pergerakan fizikal dari suatu tempat ke tempat lain di darat, laut atau udara." },
+                { q: "Apakah adab pertama yang perlu dilakukan sebelum keluar rumah?", options: ["Terus berlari keluar", "Meminta izin daripada ibu bapa", "Menjerit di pintu", "Mengunci pintu dari luar sahaja"], answer: 1, explanation: "Memohon keizinan ibu bapa adalah adab utama keluar rumah." },
+                { q: "Bagaimanakah ciri pakaian yang dibenarkan ketika berjalan mengikut Islam?", options: ["Pakaian ketat dan jarang", "Menutup aurat dengan sempurna", "Pakaian mendedahkan tubuh", "Pakaian yang mencolok mata"], answer: 1, explanation: "Menutup aurat adalah wajib bagi menjaga maruah diri." },
+                { q: "Kaki manakah yang sunat didahulukan ketika mula melangkah keluar?", options: ["Kaki kiri", "Kaki kanan", "Kedua-dua belah serentak", "Mengesot di lantai"], answer: 1, explanation: "Disunatkan memulakan langkah dengan kaki kanan dalam urusan baik." },
+                { q: "Apakah doa yang dibaca ketika memulakan kenderaan atau perjalanan?", options: ["Surah Al-Fatihah", "Surah Al-Zukhruf ayat 13-14", "Ayat Kursi", "Doa makan"], answer: 1, explanation: "Doa kenderaan diambil daripada Surah Al-Zukhruf ayat 13-14." },
+                { q: "Apakah yang perlu dipelihara pada pandangan mata semasa berjalan?", options: ["Melihat wajah orang dengan jelingan tajam", "Menjaga pandangan daripada maksiat", "Melihat telefon sambil melintas jalan raya", "Menjerit melihat orang lalu"], answer: 1, explanation: "Memelihara pandangan daripada perkara dilarang syarak." },
+                { q: "Bagaimanakah adab kita apabila bertembung dengan orang lebih tua di jalan?", options: ["Menjerit kepada mereka", "Memberi laluan dan menghormati mereka", "Melanggar mereka dengan sengaja", "Membuat bodoh"], answer: 1, explanation: "Memberi laluan kepada orang yang lebih tua adalah akhlak Islam." },
+                { q: "Apakah fadilat mengamalkan adab ketika berjalan?", options: ["Terdedah kepada kemalangan bahaya", "Selamat dalam perjalanan dan dilindungi Allah", "Dimurkai oleh Allah SWT", "Mendapat kesusahan berpanjangan"], answer: 1, explanation: "Adab berjalan melindungi diri daripada bahaya serta mendapat pahala." },
+                { q: "Apakah akibat buruk jika seseorang berjalan tanpa mengikut adab Islam?", options: ["Disayangi orang ramai", "Maruah diri terpelihara dengan baik", "Terdedah kepada bahaya dan kecelakaan", "Mendapat ganjaran pahala besar"], answer: 2, explanation: "Mengabaikan adab mendedahkan diri kepada bahaya." },
+                { q: "Apakah hukum memberi salam apabila berselisih dengan saudara Muslim di jalan?", options: ["Haram", "Sunat / Tuntutan mulia", "Makruh", "Dilarang keras"], answer: 1, explanation: "Memberi salam menaikkan rasa kasih sayang." },
+                { q: "Mengapa kita dilarang berjalan dengan sikap sombong dan angkuh?", options: ["Kerana bumi tidak boleh membelah", "Kerana Allah tidak suka orang sombong", "Kerana selipar cepat rosak", "Kerana penat kaki"], answer: 1, explanation: "Sombong dilarang keras dalam Islam." },
+                { q: "Apakah maksud potongan doa perjalanan 'Subhanallazi sakhkhara lana hatha'?", options: ["Maha suci Tuhan yang mudahkan kenderaan ini", "Segala puji bagi berhala", "Tuhan telah menzalimi kami", "Kami tidak kuasa menolak takdir"], answer: 0, explanation: "Maksudnya: Maha suci Tuhan yang memudahkan kenderaan ini untuk kami." },
+                { q: "Bagaimanakah niat yang betul ketika keluar rumah?", options: ["Niat nak buat jahat", "Niat kerana Allah dan tujuan baik", "Niat nak ponteng sekolah", "Niat nak berjalan kosong"], answer: 1, explanation: "Berniat baik dalam setiap langkah." },
+                { q: "Adakah dibenarkan meludah di tengah jalan tempat orang lalu-lalang?", options: ["Boleh jika suka", "Dilarang kerana mencemarkan kebersihan", "Diberi pahala", "Harus disunatkan"], answer: 1, explanation: "Menjaga kebersihan laluan umum adalah sebahagian iman." },
+                { q: "Bagaimana cara melintas jalan raya dengan selamat?", options: ["Meluru tanpa tengok lampu", "Menggunakan lintasan pejalan kaki (zebra crossing)", "Tidur di tengah jalan", "Berlari laju ketika kereta laju"], answer: 1, explanation: "Mematuhi peraturan jalan raya." },
+                { q: "Apakah faedah memakai kasut atau alas kaki ketika berjalan?", options: ["Menyakitkan tapak kaki", "Melindungi kaki daripada kecederaan dan najis", "Menjadikan kita lambat", "Mencemarkan pakaian"], answer: 1, explanation: "Alas kaki melindungi kesihatan fizikal." },
+                { q: "Apakah peribahasa tentang berhati-hati di jalan raya?", options: ["Pandu cermat jiwa selamat", "Biar putih tulang jangan putih mata", "Sediakan payung sebelum hujan", "Mlntas jalan sambil lewa"], answer: 0, explanation: "Pandu cermat jiwa selamat." },
+                { q: "Bagaimanakah sikap pejalan kaki yang beradab?", options: ["Berjalan di tengah jalan raya", "Berjalan di tepi laluan dengan tertib", "Mengganggu ketenteraman orang", "Bergaduh sesama rakan di lorong"], answer: 1, explanation: "Tertib di laluan pejalan kaki." },
+                { q: "Mengapa kita disunatkan membaca doa keluar rumah?", options: ["Supaya dikesan musuh", "Supaya mendapat perlindungan Allah sepanjang perjalanan", "Supaya sesat jalan", "Supaya leka bercakap"], answer: 1, explanation: "Doa melindung diri daripada malapetaka." },
+                { q: "Apakah akibat mengotorkan laluan awam?", options: ["Mendapat pahala", "Menyusahkan orang lain dan mendapat dosa", "Dipuji masyarakat", "Maju negara"], answer: 1, explanation: "Menyusahkan orang lain berdosa." },
+                { q: "Apakah bacaan doa keluar rumah yang biasa dibaca?", options: ["Bismillahi tawakkaltu 'alallah", "Alhamdulillah kamil", "Subhanallah wabi-hamdihi", "La hawla wala quwwata"], answer: 0, explanation: "Bismillahi tawakkaltu 'alallah..." },
+                { q: "Bagaimana adab menyapa rakan di jalan?", options: ["Memanggil dengan gelaran buruk", "Memberi salam dengan wajah manis", "Menjerit nama bapa rakan", "Mencemuh pakaiannya"], answer: 1, explanation: "Senyuman dan salam penyeri ukhuwah." },
+                { q: "Adakah bersiar-siar dibenarkan dalam Islam?", options: ["Haram mutlak", "Boleh jika bertujuan sihat dan berfaedah", "Wajib setiap hari", "Makruh ditolak"], answer: 1, explanation: "Bersiar-siar untuk kesihatan adalah harus dan baik." },
+                { q: "Apakah pengajaran utama Pelajaran 3?", options: ["Sentiasa berdisiplin dan ingat Allah di mana jua", "Bebas berbuat sesuka hati", "Mengabaikan keselamatan", "Berjalan tanpa arah tujuan"], answer: 0, explanation: "Disiplin dan zikir penjaga keselamatan." },
+                { q: "Bagaimana menjaga pandangan mata di tempat awam?", options: ["Merenung tajam wajah wanita/lelaki", "Menunduk pandangan daripada maksiat", "Melihat telefon tanpa henti", "Tutup mata sambil berjalan"], answer: 1, explanation: "Ghadhul basar (menjaga pandangan)." },
+                { q: "Apakah kelebihan memberi laluan kepada orang tua berjalan?", options: ["Memenatkan diri", "Mendapat keberkatan dan hormat", "Mbuang masa", "Dicemuh orang"], answer: 1, explanation: "Hormat orang tua amalan mulia." },
+                { q: "Mengapa kita dilarang membuang kulit pisang di laluan orang?", options: ["Supaya orang tergelincir", "Supaya orang lain selamat daripada bahaya", "Supaya jalan rosak", "Supaya disayangi haiwan"], answer: 1, explanation: "Mengelakkan kemalangan kepada pejalan kaki." },
+                { q: "Apakah perasaan apabila sampai di destinasi dengan selamat?", options: ["Marah-marah", "Mengucap kesyukuran kepada Allah", "Menangis menyesal", "Tiada perasaan"], answer: 1, explanation: "Bersyukur atas nikmat keselamatan." },
+                { q: "Manakah adab berjalan yang betul di koridor sekolah?", options: ["Berlari laju dan melanggar adik darjah 1", "Berjalan tenang dan beratur sopan", "Menjerit sekuat hati", "Bermain bola di koridor"], answer: 1, explanation: "Berjalan tertib di kawasan sekolah." },
+                { q: "Apakah kesimpulan tajuk Adab Berjalan?", options: ["Panduan keselamatan dan penjagaan peribadi muslim", "Amalan sia-sia", "Undang-undang jalan raya semata", "Hobi masa lapang"], answer: 0, explanation: "Adab menyeluruh merangkumi fizikal dan kerohanian." }
+            ],
+            4: [
+                { q: "Apakah pengertian bermain?", options: ["Aktiviti perseorangan atau berkumpulan secara sukarela", "Kerja paksa yang melelahkan", "Tidur di dalam kelas", "Belajar subjek Matematik"], answer: 0, explanation: "Bermain ialah aktiviti rekreasi sukarela mengikut peraturan." },
+                { q: "Apakah amalan sunat sebelum memulakan sesuatu permainan?", options: ["Bertengkar berebut padang", "Berdoa kepada Allah dan bersalaman", "Memaki hamun pihak lawan", "Menipu peraturan permainan"], answer: 1, explanation: "Berdoa dan bersalaman menyuburkan semangat ukhuwah." },
+                { q: "Di manakah tempat yang paling selamat untuk anak-anak bermain?", options: ["Di tengah lebuh raya sibuk", "Di tempat permainan yang sesuai dan selamat", "Di atas bumbung rumah tinggi", "Di dalam kilang berbahaya"], answer: 1, explanation: "Kawasan rekreasi yang selamat mengelakkan kecelakaan." },
+                { q: "Apakah hukum bertaruh atau berjudi dalam sebarang permainan?", options: ["Harus dan dibolehkan", "Sunat muakad", "Haram dan dilarang keras", "Makruh sahaja"], answer: 2, explanation: "Pertaruhan dalam permainan adalah haram di sisi syarak." },
+                { q: "Antara berikut, yang manakah perkara dilarang ketika bermain?", options: ["Mematuhi pengadil", "Menimbulkan suasana tegang dan bergaduh", "Semangat setia kawan", "Bertolak ansur sesama rakan"], answer: 1, explanation: "Perbuatan menimbulkan ketegangan dilarang sama sekali." },
+                { q: "Apakah fadilat beradab ketika bermain?", options: ["Sihat tubuh badan dan minda cerdas", "Dimusuhi oleh rakan sepasukan", "Menjadi seorang yang pemalas", "Mendapat kemurkaan guru"], answer: 0, explanation: "Rekreasi beradab menyihatkan fizikal dan mental." },
+                { q: "Apakah sikap yang perlu ditunjukkan selepas tamat sesuatu perlawanan?", options: ["Bergaduh fizikal dengan pihak lawan", "Bermaaf-maafan dan terima keputusan dengan reda", "Menyumpah seranah pengadil", "Merosakkan alatan permainan"], answer: 1, explanation: "Sikap sportif bermaaf-maafan adalah akhlak terpuji." },
+                { q: "Apakah akibat buruk jika tidak beradab ketika bermain?", options: ["Melahirkan perpaduan utuh", "Menimbulkan permusuhan dan pergaduhan", "Menambah bilangan sahabat", "Mendapat pujian ramai"], answer: 1, explanation: "Hilang adab membawa kepada sengketa." },
+                { q: "Peribahasa manakah berkaitan kesihatan fizikal dan rekreasi?", options: ["Badan sihat otak cerdas", "Bagai dihiris sembilu", "Sepandai-pandai tupai melompat", "Kencing di atas kepala"], answer: 0, explanation: "Akal yang sihat bermula dari badan yang sihat." },
+                { q: "Mengapa kita perlu menjaga aurat semasa bersukan atau bermain?", options: ["Supaya mudah dilihat orang", "Kerana menutup aurat adalah wajib dalam Islam", "Supaya pakaian cepat rosak", "Supaya tidak nampak bergaya"], answer: 1, explanation: "Syariat Islam menetapkan batas aurat walau ketika bersukan." },
+                { q: "Bagaimanakah sikap pemain yang mempunyai semangat 'fair play'?", options: ["Menipu markah permainan", "Jujur dan menghormati keputusan pengadil", "Mencederakan pemain lawan secara sengaja", "Memarahi rakan sepasukan"], answer: 1, explanation: "Fair play melahirkan disiplin tinggi." },
+                { q: "Apakah akibat menipu dalam permainan?", options: ["Dipuji ramai", "Hilang kepercayaan rakan", "Mendapat hadiah utama", "Disanjung tinggi"], answer: 1, explanation: "Penipuan merosakkan integriti diri." },
+                { q: "Bagaimana cara menguruskan alatan permainan selepas selesai?", options: ["Mencampakkan ke dalam longkang", "Menyimpan semula di tempat asal dengan cermat", "Membiarkan di tengah padang", "Memecahkannya untuk cubaan"], answer: 1, explanation: "Menjaga harta alatan permainan dengan amanah." },
+                { q: "Apakah hukum bergaduh sesama rakan hanya kerana kalah perlawanan?", options: ["Wajib", "Haram / Dilarang", "Sunat", "Harus"], answer: 1, explanation: "Pergaduhan akibat sukan adalah tercela." },
+                { q: "Mengapa aktiviti permainan secara berkumpulan digalakkan?", options: ["Untuk berlumba sesama sendiri hingga cedera", "Untuk memupuk semangat kerjasama dan toleransi", "Untuk mengelak daripada belajar", "Untuk bermusuhan lama"], answer: 1, explanation: "Permainan berkumpulan membina semangat sepasukan." },
+                { q: "Bagaimana cara menyantuni rakan yang cedera ketika bermain?", options: ["Mentertawakannya", "Segera memberi pertolongan dan merawat", "Meninggalkannya sendirian", "Memarahinya kerana lemah"], answer: 1, explanation: "Sifat belas kasihan dituntut ketika kecemasan." },
+                { q: "Apakah kesan positif bersukan mengikut syariat?", options: ["Cergas fizikal dan akhlak terpuji", "Badan letih dan rosak akal", "Menjadi sombong", "Lalai solat fardu"], answer: 0, explanation: "Sukan sihat mendidik fizikal dan rohani." },
+                { q: "Adakah dibenarkan bermain hingga melalaikan waktu solat?", options: ["Boleh jika sedang menang", "Haram melalaikan solat fardu", "Sunat diteruskan", "Harus diqada kemudian"], answer: 1, explanation: "Waktu solat wajib diutamakan walau apa jua permainan." },
+                { q: "Apakah sifat buruk yang perlu dijauhi semasa bermain bola?", options: ["Sabar dan bertolak ansur", "Sifat baran, tamak dan pentingkan diri", "Semangat muhibah", "Jujur kepada kawan"], answer: 1, explanation: "Tamak bola dan baran merosakkan permainan." },
+                { q: "Apakah pengajaran utama Pelajaran 4 (Adab Bermain)?", options: ["Bermain bebas tanpa had", "Berhibur secara sihat dan berdisiplin", "Mengharamkan semua sukan", "Bermain judi siber"], answer: 1, explanation: "Sukan dikawal disiplin dan batasan syarak." },
+                { q: "Bagaimana cara menerima kekalahan dalam perlawanan?", options: ["Menangis tak berlagu dan mengamuk", "Reda, muhasabah diri dan cuba lagi", "Menculik pengadil", "Membakar gelanggang"], answer: 1, explanation: "Menerima kekalahan dengan hati terbuka." },
+                { q: "Apakah kelebihan menang dengan cara jujur?", options: ["Mendapat kepuasan dan kemuliaan", "Dibenci orang ramai", "Mendapat dosa kering", "Ditarik kemenangan"], answer: 0, explanation: "Kemenangan bersih mendatangkan maruah." },
+                { q: "Manakah permainan sunnah yang digalakkan dalam Islam?", options: ["Memanah, menunggang kuda dan berenang", "Bermain judi tikam", "Merempit di jalan raya", "Bergusti tanpa peraturan"], answer: 0, explanation: "Memanah, berkuda dan berenang adalah sukan sunnah." },
+                { q: "Bagaimana menjaga kebersihan tempat rekreasi selepas bersukan?", options: ["Membuang botol plastik merata-rata", "Mengutip sampah dan membuang ke tong sampah", "Membakar plastik di padang", "Meninggalkan sisa makanan"], answer: 1, explanation: "Cintakan kebersihan alam sekitar." },
+                { q: "Apakah akibat buruk bermain permainan ganas tanpa kawalan keselamatan?", options: ["Badan sihat sentiasa", "Berlaku kecederaan parah", "Mendapat markah penuh", "Disayangi guru"], answer: 1, explanation: "Kecuaian membawa kepada kecederaan fizikal." },
+                { q: "Mengapa kita dilarang mengejek pihak lawan yang tewas?", options: ["Kerana ia melukai hati dan merosakkan ukhuwah", "Kerana kita takut mereka balas", "Kerana pengadil denda kita", "Kerana ia dilarang undang-undang negara sahaja"], answer: 0, explanation: "Menjaga sensitiviti dan maruah orang lain." },
+                { q: "Apakah peranan kapten pasukan yang beradab?", options: ["Membuli ahli pasukan lain", "Membimbing dan meniup semangat positif kepada rakan", "Mengambil semua kredit kemenangan", "Membiarkan pasukan berpecah"], answer: 1, explanation: "Kepimpinan beretika memacu kejayaan." },
+                { q: "Bagaimanakah adab ketika menonton perlawanan sukan?", options: ["Membaling botol ke dalam padang", "Memberi sokongan sihat tanpa mencarut", "Merusuh apabila pasukan kalah", "Mencaci pemain di media sosial"], answer: 1, explanation: "Penyokong berhemah menghormati perlawanan." },
+                { q: "Apakah ciri permainan moden yang bertentangan dengan Islam?", options: ["Mengandungi unsur judi, ganas dan melalaikan solat", "Permainan minda mencabar", "Rekreasi fizikal luar rumah", "Permainan tradisional rakyat"], answer: 0, explanation: "Permainan rosak akidah dan akhlak wajib dijauhi." },
+                { q: "Apakah kesimpulan tajuk Adab Bermain?", options: ["Sukan membina fizikal dan akhlak cemerlang jika berlandaskan syariat", "Bermain hanya buang masa", "Tiada aturan dalam keseronokan", "Kemenangan matlamat halalkan cara"], answer: 0, explanation: "Adab memandu rekreasi yang berkat." }
+            ],
+            5: [
+                { q: "Apakah pengertian komunikasi?", options: ["Proses pertukaran maklumat dan idea antara dua pihak atau lebih", "Perbuatan bercakap seorang diri di dalam bilik", "Tindakan mendiamkan diri ketika disoal", "Menulis surat tanpa penerima"], answer: 0, explanation: "Komunikasi ialah proses pertukaran maklumat dan idea untuk menghasilkan maklum balas." },
+                { q: "Apakah ucapan wajib yang disunatkan ketika memulakan komunikasi sesama Muslim?", options: ["Selamat pagi cikgu", "Memberi salam (Assalamu'alaikum)", "Apa khabar kawan", "Sila masuk bilik"], answer: 1, explanation: "Memberi salam menaikkan keberkatan perbualan." },
+                { q: "Apakah maksud potongan ayat surah Ali-Imran ayat 159 mengenai sifat Nabi SAW?", options: ["Nabi bersikap kasar dan keras hati", "Nabi berlemah lembut dengan rahmat Allah", "Nabi suka memulaukan umatnya", "Nabi menyuruh umat berperang"], answer: 1, explanation: "Nabi dikurniakan sifat lemah lembut dalam memimpin." },
+                { q: "Bagaimanakah adab bersuara ketika bercakap dengan orang lain?", options: ["Menjerit sekuat hati di telinga kawan", "Bercakap dengan nada lembut, jelas dan beradab", "Berlagak sombong dan bongkak", "Menggunakan bahasa kesat"], answer: 1, explanation: "Nada suara yang terkawal menyejukkan hati pendengar." },
+                { q: "Apakah akibat buruk jika seseorang berkomunikasi secara biadab?", options: ["Disayangi oleh rakan taulan", "Dimurkai Allah serta dibenci masyarakat", "Mendapat sanjungan ramai", "Mengeratkan hubungan silaturahim"], answer: 1, explanation: "Biadab bertutur menjauhkan kasih sayang." },
+                { q: "Mengapa kita dilarang memotong perbualan orang lain secara tiba-tiba?", options: ["Kerana ia adab komunikasi yang sangat buruk", "Kerana kita cepat kaya", "Kerana pendengar lain teruja", "Kerana disukai ramai"], answer: 0, explanation: "Memotong cakap mencerminkan kebiadapan." },
+                { q: "Apakah sifat lidah yang sangat dicela oleh Allah SWT dalam perbualan?", options: ["Lidah yang suka berselawat", "Lidah bercabang, menipu dan mencarut", "Lidah yang membaca Al-Quran", "Lidah yang berzikir"], answer: 1, explanation: "Lidah pendusta dan pencarut dimurkai Allah." },
+                { q: "Bagaimanakah pandangan mata kita ketika sedang berkomunikasi?", options: ["Memandang muka pendengar dengan sopan", "Memandang lantai sambil mengomel", "Meliang-liuk mata ke arah lain", "Menutup mata terus tertidur"], answer: 0, explanation: "Memandang wajah pendengar menunjukkan tumpuan ikhlas." },
+                { q: "Apakah fadilat mengamalkan adab berkomunikasi?", options: ["Maruah diri terjaga dan suasana harmoni", "Menimbulkan pergaduhan besar", "Menambah musuh dalam hidup", "Dibenci oleh jiran tetangga"], answer: 0, explanation: "Komunikasi beradab melahirkan keharmonian ummah." },
+                { q: "Apakah peribahasa Melayu yang mengingatkan kita menjaga tutur kata?", options: ["Terlanjur perahu boleh diundur, terlanjur kata buruk padahnya", "Sediakan payung sebelum hujan", "Bagai dihiris sembilu", "Bukit sama didaki lurah sama dituruni"], answer: 0, explanation: "Kata-kata yang dilepaskan tidak boleh ditarik balik dengan mudah." },
+                { q: "Bagaimana cara menegur kesalahan rakan semasa bercakap?", options: ["Menjerit di khalayak ramai", "Menasihati dengan hikmah dan bahasa berhemah", "Mencemuh kekurangannya", "Membuli fizikalnya"], answer: 1, explanation: "Teguran berhemah membina peribadi." },
+                { q: "Apakah hukum menyebarkan berita palsu (fitnah) melalui telefon pintar?", options: ["Harus", "Sunat", "Haram dan berdosa besar", "Makruh sahaja"], answer: 2, explanation: "Fitnah merosakkan kestabilan masyarakat." },
+                { q: "Mengapa kita perlu memikirkan kesan kata-kata sebelum bercakap?", options: ["Supaya tidak menyakiti hati pendengar", "Supaya penat bercakap", "Supaya orang benci kita", "Supaya masa terbuang"], answer: 0, explanation: "Fikir dahulu sebelum berkata-kata." },
+                { q: "Apakah adab menjawab panggilan telefon menurut Islam?", options: ["Mengangkat dengan kata kesat", "Memulakan dengan salam dan suara lembut", "Terus meletakkan gagang telefon", "Menjerit di talian"], answer: 1, explanation: "Salam pembuka bicara yang baik." },
+                { q: "Bagaimana sikap pendengar yang baik dalam komunikasi?", options: ["Menyampuk setiap saat", "Mendengar dengan teliti dan sabar", "Tidur semasa orang bercakap", "Mengalihkan tajuk lain"], answer: 1, explanation: "Mendengar dengan aktif tanda menghormati." },
+                { q: "Apakah kesan positif penggunaan bahasa yang sopan?", options: ["Melahirkan masyarakat saling menyayangi", "Menimbulkan pergaduhan kaum", "Memecahbelahkan sekolah", "Menambah kemarahan orang"], answer: 0, explanation: "Bahasa jiwa bangsa dan ukhuwah." },
+                { q: "Bagaimana cara memohon maaf jika terlanjur kata?", options: ["Berlagak sombong tak bersalah", "Segera memohon keampunan dan maaf", "Menuduh orang lain pula", "Melarikan diri"], answer: 1, explanation: "Rendah diri mengakui kesilapan lisan." },
+                { q: "Mengapa Rasulullah SAW melarang banyak bercakap kosong?", options: ["Kerana ia membuang masa dan mendatangkan dosa", "Kerana penat tekak", "Kerana tiada faedah dunia", "Kerana disukai malaikat"], answer: 0, explanation: "Bual kosong melalaikan zikrullah." },
+                { q: "Apakah hukum memanggil rakan dengan gelaran buruk (panggilan gelaran mengejek)?", options: ["Haram / Dilarang keras dalam agama", "Sunat diamalkan", "Harus selagi berseloroh", "Makruh ringan"], answer: 0, explanation: "Larangan memanggil gelaran buruk terdapat dalam Al-Quran." },
+                { q: "Apakah pengajaran utama Pelajaran 5 (Adab Berkomunikasi)?", options: ["Lidah talam dua muka", "Menjaga lisan lambang keimanan mukmin", "Bercakap sesuka hati tanpa batas", "Menghina kelemahan orang"], answer: 1, explanation: "Lisan yang terjaga mencerminkan ketinggian iman." },
+                { q: "Bagaimana cara berkomunikasi dengan guru di sekolah?", options: ["Bahasa basahan kasar", "Bahasa istana atau bahasa baku yang sopan", "Bahasa mencarut", "Menjerit dari jauh"], answer: 1, explanation: "Menghormati guru melalui lisan." },
+                { q: "Apakah balasan bagi orang yang menjaga lisannya daripada berkata buruk?", options: ["Dijanjikan ganjaran syurga oleh Nabi SAW", "Dimasukkan ke neraka", "Dipulaukan masyarakat", "Hidup melarat"], answer: 0, explanation: "Jaminan syurga bagi penjaga lisan dan kemaluan." },
+                { q: "Mengapa kita dilarang bersumpah dengan nama selain Allah?", options: ["Kerana ia perbuatan syirik kecil", "Kerana ia amalan mulia", "Kerana tiada kesan", "Kerana disukai kawan"], answer: 0, explanation: "Sumpah hanya kepada Allah SWT." },
+                { q: "Bagaimana komunikasi dalam media sosial yang diredai Allah?", options: ["Menyebar ilmu bermanfaat dan kata positif", "Mencaci maki pemimpin dan artis", "Menyebarkan aib orang lain", "Membuli siber rakan sekolah"], answer: 0, explanation: "Media sosial medan menyebar kebaikan." },
+                { q: "Apakah akibat buruk sifat 'sharah al-kalam' (banyak cakap kosong)?", options: ["Disayangi ulama", "Mendapat azab dan membazir masa", "Menjadi cerdik pandai", "Mendapat pahala sunat"], answer: 1, explanation: "Banyak cakap kosong merugikan." },
+                { q: "Bagaimana adab ketika berada dalam majlis ilmu atau ceramah?", options: ["Berbual kuat dengan rakan sebelah", "Diam mendengar dan mencatat nota", "Tidur berdengkur", "Main permainan telefon"], answer: 1, explanation: "Khusyuk mendengar majlis ilmu." },
+                { q: "Apakah ciri percakapan orang mukmin sejati?", options: ["Berkata benar atau berdiam diri", "Suka menipu sunat", "Mencarut ketika marah", "Mengumpat di belakang"], answer: 0, explanation: "Sabda Nabi: 'Barang siapa beriman... diam atau berkata benar'." },
+                { q: "Mengapa gurauan keterlaluan dilarang dalam Islam?", options: ["Kerana ia boleh melukai hati dan merosakkan ukhuwah", "Kerana ia diwajibkan", "Kerana meriah suasana", "Kerana tiada dosa"], answer: 0, explanation: "Gurauan berlebihan menyinggung perasaan." },
+                { q: "Bagaimanakah ekspresi wajah yang sunat ketika bercakap?", options: ["Masam mencuka", "Tenang dan berseri (senyuman)", "Marah mempamerkan gigi", "Tenggelam kepala"], answer: 1, explanation: "Senyuman sedekah penyeri bicara." },
+                { q: "Apakah kesimpulan tajuk Adab Berkomunikasi?", options: ["Lisan landasan utama perpaduan dan akhlak mulia umat Islam", "Komunikasi tidak penting", "Bercakap bebas hak individu", "Bahasa kasar lambang kekuatan"], answer: 0, explanation: "Lisan cerminan peribadi mukmin." }
+            ],
+            6: [
+                { q: "Siapakah yang dimaksudkan dengan 'Jiran'?", options: ["Orang yang tinggal berhampiran atau di sekeliling rumah kita", "Kawan sekelas di sekolah", "Saudara mara yang tinggal di negeri lain", "Orang asing di dalam televisyen"], answer: 0, explanation: "Jiran ialah jiran tetangga yang tinggal di sekeliling kediaman." },
+                { q: "Surah Al-Nisa' ayat 36 memerintahkan kita berbuat baik kepada siapa selain ibu bapa?", options: ["Musuh negara", "Jiran terdekat dan jiran jauh", "Haiwan buas di hutan", "Orang yang sombong"], answer: 1, explanation: "Ayat 36 surah An-Nisa' menyentuh hak jiran tetangga." },
+                { q: "Antara berikut, yang manakah merupakan adab menyantuni jiran?", options: ["Membuang sampah di halaman rumah jiran", "Saling menziarahi dan bertolak ansur", "Membuat bising lewat malam", "Mencemuh anak-anak jiran"], answer: 1, explanation: "Ziarah menziarahi dan toleransi adalah adab utama." },
+                { q: "Apakah yang perlu kita lakukan apabila jiran tetangga kita ditimpa musibah?", options: ["Mentertawakan kesusahan mereka", "Mengucapkan takziah dan memberi bantuan", "Menutup pintu rumah rapat-rapat", "Berpindah rumah segera"], answer: 1, explanation: "Menziarahi dan membantu meringankan beban jiran." },
+                { q: "Bagaimanakah sikap kita apabila jiran mendapat kejayaan atau nikmat?", options: ["Dengki dan cemburu", "Mengucapkan tahniah dan bersyukur", "Memulaukan majlis mereka", "Marah tanpa sebab"], answer: 1, explanation: "Mengucap tahniah mengeratkan silaturahim." },
+                { q: "Apakah fadilat menjaga adab dan hak jiran tetangga?", options: ["Hidup aman damai serta disukai Allah SWT", "Masyarakat sentiasa berpecah belah", "Dibenci oleh penduduk kampung", "Mendapat kemurkaan malaikat"], answer: 0, explanation: "Jiran sepakat membawa berkat dan kedamaian." },
+                { q: "Apakah akibat buruk jika seseorang mengabaikan adab berjiran?", options: ["Kehidupan jiran sentiasa harmoni", "Kehidupan tidak tenang dan masyarakat berbalah", "Disanjung tinggi oleh penduduk taman", "Mendapat anugerah jiran contoh"], answer: 1, explanation: "Abaikan hak jiran mencetuskan permusuhan." },
+                { q: "Apakah peribahasa Melayu yang menggambarkan kepentingan jiran terdekat?", options: ["Jiran sepakat membawa berkat / Jiran asalnya saudara terdekat", "Bagai anjing dengan kucing", "Air dicincang tak akan putus", "Kalah menjadi arang menang menjadi abu"], answer: 0, explanation: "Jiran tempat rujukan pertama ketika kesusahan." },
+                { q: "Adakah kita dibenarkan menyakiti hati jiran dengan bunyi bising?", options: ["Boleh jika rumah kita besar", "Dilarang keras kerana menyalahi adab Islam", "Wajib dibuat setiap malam", "Harus disunatkan"], answer: 1, explanation: "Nabi menegah perbuatan mengganggu ketenteraman jiran." },
+                { q: "Bagaimana cara kita mengenali hak jiran yang pelbagai bangsa?", options: ["Memulaukan mereka terus", "Menghormati hak mereka selagi tidak bertentangan Islam", "Menghina amalan budaya mereka", "Mengusir mereka keluar"], answer: 1, explanation: "Islam menuntut menghormati jiran pelbagai latar belakang." },
+                { q: "Siapakah tetangga yang paling utama diziarahi mengikut hadis?", options: ["Jiran yang pintu rumahnya paling dekat dengan kita", "Jiran yang tinggal di negeri lain", "Jiran yang kita benci", "Jiran yang kaya raya sahaja"], answer: 0, explanation: "Jiran terdekat pintu rumahnya paling berhak." },
+                { q: "Bagaimana sikap kita jika jiran meminjam peralatan rumah?", options: ["Enggan meminjamkan langsung", "Meminjamkan dengan senyuman dan ikhlas", "Meminta bayaran sewa tinggi", "Menjual peralatan tersebut"], answer: 1, explanation: "Sikap bantu-membantu meringankan urusan jiran." },
+                { q: "Apakah hukum menyakiti jiran tetangga secara sengaja?", options: ["Haram dan diancam neraka", "Sunat muakad", "Makruh ringan", "Harus"], answer: 0, explanation: "Nabi bersumpah tidak sempurna iman orang yang menyakiti jiran." },
+                { q: "Mengapa Rasulullah SAW sering berpesan mengenai hak jiran?", options: ["Sehingga Baginda menyangka jiran akan dapat pusaka", "Supaya kita bermusuhan", "Supaya kita mengambil harta jiran", "Supaya jiran takut pada kita"], answer: 0, explanation: "Wasiat Jibril kepada Nabi tentang hak jiran." },
+                { q: "Bagaimana cara berkongsi rezeki makanan dengan jiran?", options: ["Memberi sedekah masakan secara ikhlas", "Membuang sisa makanan di pagar mereka", "Makan seorang diri tanpa peduli", "Menyembunyikan makanan sedap"], answer: 0, explanation: "Sunat menghantar masakan kepada jiran." },
+                { q: "Apakah kesan positif gotong-royong taman perumahan?", options: ["Melahirkan masyarakat bersatu padu dan ceria", "Kawasan taman bertambah kotor", "Penduduk saling membenci", "Berlaku pergaduhan besar"], answer: 0, explanation: "Gotong-royong memupuk ukhuwah." },
+                { q: "Bagaimana adab apabila melintas di hadapan rumah jiran?", options: ["Menjerit dan menendang pagar", "Menjaga pandangan dan tidak mengintai ke dalam", "Mengambil barang jiran", "Meludah di halaman jiran"], answer: 1, explanation: "Menjaga pandangan dan aurat rumah jiran." },
+                { q: "Apakah tanggungjawab kita jika jiran mengadakan kenduri kahwin?", options: ["Memboikot majlis tersebut", "Memenuhi jemputan jika diundang dan tiada keuzuran", "Membuat bising sengaja", "Merosakkan khemah kenduri"], answer: 1, explanation: "Memenuhi jemputan jiran adalah hak sesama Islam." },
+                { q: "Mengapa jiran dianggap seperti keluarga terdekat?", options: ["Kerana mereka pantas membantu ketika kecemasan", "Kerana mereka ada pertalian darah", "Kerana mereka tinggal di bilik sama", "Kerana mereka waris pusaka"], answer: 0, explanation: "Jiran tempat rujukan paling awal ketika darurat." },
+                { q: "Apakah pengajaran utama Pelajaran 6 (Adab Berjiran)?", options: ["Hidup bermasyarakat memerlukan toleransi dan kasih sayang", "Hidup selesa bersendirian di gua", "Mengabaikan orang sekeliling", "Memusuhi semua penduduk taman"], answer: 0, explanation: "Keharmonian kejiranan asas kestabilan negara." },
+                { q: "Bagaimana cara menegur jiran yang membuat kesalahan tanpa bermasam muka?", options: ["Menghasut penduduk kampung lain", "Bertegur sapa dengan lemah lembut dan berhemah", "Membuat aduan palsu polis", "Membakar kenderaan jiran"], answer: 1, explanation: "Teguran berhemah mengelakkan sengketa." },
+                { q: "Apakah balasan bagi orang yang baik dengan jiran tetangganya?", options: ["Dimasukkan ke syurga dan disukai masyarakat", "Dimurkai Allah SWT", "Diasingkan daripada penduduk", "Dikenakan denda kampung"], answer: 0, explanation: "Kebaikan kepada jiran mendatangkan reda Ilahi." },
+                { q: "Adakah kita dibenarkan mengintip hal peribadi rumah jiran?", options: ["Boleh sebagai hobi", "Dilarang keras kerana mencabuli privasi", "Harus jika curiga", "Sunat muakad"], answer: 1, explanation: "Mata-mata mengintip rumah jiran diharamkan." },
+                { q: "Bagaimana menjaga kebersihan pagar pembahagi rumah jiran?", options: ["Membuang sampah di situ", "Memotong dahan pokok yang merentasi rumah jiran", "Mencat warna hitam legam", "Mendirikan halangan besar"], answer: 1, explanation: "Memastikan dahan pokok tidak menyusahkan jiran." },
+                { q: "Apakah perasaan jiran apabila kita sentiasa bertegur sapa dengan senyuman?", options: ["Gembira dan mesra", "Takut dan cemas", "Benci melintas", "Marah berpanjangan"], answer: 0, explanation: "Senyuman mengeratkan silaturahim." },
+                { q: "Mengapa Islam menyuruh kita memuliakan tetamu dan jiran?", options: ["Kerana ia lambang keimanan kepada Allah dan hari akhirat", "Kerana ada habuan wang", "Kerana takut denda", "Kerana tiada kerja lain"], answer: 0, explanation: "Hadis Nabi: 'Barang siapa beriman... muliakan jiran'." },
+                { q: "Bagaimana menyambut jiran baru yang berpindah ke sebelah rumah?", options: ["Menghantar kuih pengenalan diri dan mengalu-alukan", "Membiarkan mereka terkial-kial", "Menutup pintu pagar terus", "Memasang lagu kuat membuli"], answer: 0, explanation: "Menyambut jiran baru tanda akhlak mulia." },
+                { q: "Apakah akibat buruk membuang sampah di halaman jiran?", options: ["Mendapat pahala sedekah", "Mencetuskan pergaduhan dan permusuhan pahit", "Dipuji penduduk taman", "Mendapat ganjaran hadiah"], answer: 1, explanation: "Perbuatan khianat merosakkan perpaduan." },
+                { q: "Manakah amalan terbaik untuk mengeratkan hubungan kejiranan?", options: ["Mengadakan jamuan kecil dan ziarah berkala", "Bertengkar isu kecil setiap hari", "Tidak mengenali nama jiran langsung", "Berlagak sombong"], answer: 0, explanation: "Ziarah dan jamuan memperkukuh ukhuwah." },
+                { q: "Apakah kesimpulan tajuk Adab Berjiran?", options: ["Jiran yang baik penentu keharmonian komuniti sekeliling", "Jiran musuh dalam selimut", "Jiran tidak penting dalam hidup", "Jiran hanya wujud di bandar"], answer: 0, explanation: "Jiran penawar duka dan pembawa berkat." }
+            ],
+            7: [
+                { q: "Apakah pengertian taubat?", options: ["Kembali taat kepada Allah dan menyesal terhadap dosa", "Berpura-pura baik di hadapan manusia", "Menangis tanpa sebab di sejadah", "Melarikan diri daripada masalah dunia"], answer: 0, explanation: "Taubat ialah kembali taat kepada Allah dan menyesal atas dosa lalu." },
+                { q: "Surah At-Tahrim ayat 8 menyuruh orang beriman melakukan taubat jenis apa?", options: ["Taubat Nasuha (taubat yang sebenar-benarnya)", "Taubat sambilan", "Taubat kerana takutkan polis", "Taubat terpaksa"], answer: 0, explanation: "Taubat nasuha adalah taubat ikhlas bersungguh-sungguh." },
+                { q: "Antara berikut, yang manakah merupakan cara bertaubat kepada Allah?", options: ["Mengulangi maksiat yang sama", "Menghentikan maksiat, menyesal dan berazam tidak mengulangi", "Membiarkan dosa terus bertambah", "Menyembunyikan dosa daripada orang lain sahaja"], answer: 1, explanation: "Syarat taubat termasuk menyesal, berhenti dan berazam." },
+                { q: "Apakah pengertian 'Khauf'?", options: ["Perasaan takut kepada Allah yang mendorong melakukan ketaatan", "Takut kepada hantu di dalam gelap", "Takut kepada binatang buas", "Takut kepada kegagalan peperiksaan semata"], answer: 0, explanation: "Khauf ialah rasa gerun dan takut kepada kemurkaan Allah." },
+                { q: "Apakah dalil naqli bagi sifat Khauf dalam Surah Al-Nazi'at ayat 40-41?", options: ["Ganjaran syurga bagi yang takut kepada kebesaran Allah", "Amaran neraka bagi orang yang tidak solat", "Kisah umat terdahulu yang binasa", "Perintah berzakat kepada fakir miskin"], answer: 0, explanation: "Ayat tersebut menjanjikan syurga bagi yang takut kedudukan Allah." },
+                { q: "Bagaimanakah cara memupuk sifat khauf dalam diri seorang murid?", options: ["Sentiasa mengingati mati dan mendalami ilmu agama", "Leka dengan hiburan dunia tanpa had", "Berasa diri sudah dijamin syurga", "Menjauhi majlis ilmu dan masjid"], answer: 0, explanation: "Ingat mati dan ilmu agama memupuk rasa takut kepada Allah." },
+                { q: "Apakah fadilat mengamalkan sifat Mahmudah (Taubat & Khauf)?", options: ["Mendapat petunjuk, rahmat dan disayangi Allah SWT", "Dimurkai oleh para malaikat", "Dijauhi oleh kawan-kawan di sekolah", "Menjadi seorang yang sombong diri"], answer: 0, explanation: "Penyucian hati mendatangkan rahmat Ilahi." },
+                { q: "Apakah akibat buruk jika seseorang tidak mahu bertaubat atas dosanya?", options: ["Hidup dalam ketakutan dan terseksa di akhirat", "Mendapat kejayaan cemerlang dunia", "Sentiasa gembira tanpa penyesalan", "Dipuji oleh golongan pendusta"], answer: 0, explanation: "Kedegilan berbuat dosa mengundang azab." },
+                { q: "Apakah zikir utama bagi memohon keampunan (istighfar) kepada Allah?", options: ["Astaghfirullahal 'Azim", "Subhanallah walhamdulillah", "La ilaha illallah", "Allahu Akbar kabira"], answer: 0, explanation: "Astaghfirullahal 'Azim adalah kalimah istighfar agung." },
+                { q: "Mengapa pintu taubat sentiasa terbuka luas untuk hamba-Nya?", options: ["Kerana Allah bersifat Maha Pengampun (Al-Ghafur/Tawwab)", "Kerana Allah tidak peduli dosa hamba", "Kerana manusia tidak pernah berbuat dosa", "Kerana syurga masih kosong"], answer: 0, explanation: "Rahmat Allah mendahului kemurkaan-Nya." },
+                { q: "Apakah syarat sah taubat jika dosa itu melibatkan hak sesama manusia?", options: ["Hanya perlu solat sunat taubat", "Memulangkan hak atau meminta halal daripada pemiliknya", "Cukup dengan melafazkan ucapan maaf", "Bersedekah kepada masjid sahaja"], answer: 1, explanation: "Dosa sesama manusia wajib diselesaikan dengan mangsa." },
+                { q: "Bagaimana perasaaan orang yang benar-benar ikhlas bertaubat?", options: ["Gembira melakukan dosa lagi", "Menyesal mendalam dan berhati-hati", "Bongkar rahsia orang lain", "Sombong dengan amal ibadatnya"], answer: 1, explanation: "Penyesalan membimbing diri kepada kebaikan." },
+                { q: "Apakah kaitan antara sifat Khauf dan sifat Raja' (harap)?", options: ["Dua sifat yang seimbang dalam diri mukmin (takut azab, harap rahmat)", "Dua sifat yang saling berlawanan", "Sifat mazmumah yang dilarang", "Tiada kaitan langsung dalam agama"], answer: 0, explanation: "Mukmin seimbang antara khauf dan raja'." },
+                { q: "Mengapa kita dilarang berputus asa daripada rahmat Allah?", options: ["Kerana putus asa sifat kafir/sesat", "Kerana rahmat Allah sangat luas", "Kerana dosa kita sedikit", "Kerana dunia ini kekal abadi"], answer: 1, explanation: "Jangan berputus asa daripada keampunan Allah." },
+                { q: "Apakah amalan sunat yang digalakkan selepas melakukan dosa sebagai tanda taubat?", options: ["Solat sunat Taubat dua rakaat", "Tidur sepanjang hari", "Makan makanan lazat", "Berhibur di pusat karaoke"], answer: 0, explanation: "Solat sunat taubat mendekatkan diri kepada Allah." },
+                { q: "Apakah maksud 'An-Nasuha' dalam istilah Taubat Nasuha?", options: ["Taubat yang ikhlas, kukuh dan tidak mengulangi dosa", "Taubat sementara waktu sahaja", "Taubat yang disembunyikan", "Taubat paksaan orang tua"], answer: 0, explanation: "Nasuh bermaksud suci dan kukuh." },
+                { q: "Bagaimana sifat Khauf menyelamatkan seseorang daripada maksiat?", options: ["Mendorong dia takut melakukan larangan kerana Allah melihat", "Membuat dia lari menyembunyikan diri", "Menjadikan dia penakut kepada manusia", "Menyekat rezeki harian"], answer: 0, explanation: "Rasa pengawasan Allah (muraqabah) menyekat maksiat." },
+                { q: "Apakah akibat jika seseorang hilang sifat khauf kepada Allah?", options: ["Berani melakukan dosa secara terang-terangan", "Sentiasa menjaga solat fardu", "Takut mendekati kawasan larangan", "Menjadi hamba yang soleh"], answer: 0, explanation: "Hilang rasa takut menggalakkan kemungkaran." },
+                { q: "Manakah amalan harian yang mengukuhkan sifat taubat dalam diri?", options: ["Sentiasa beristighfar setiap hari", "Melakukan maksiat kecil", "Bercakap besar di sekolah", "Meninggalkan solat Jumaat"], answer: 0, explanation: "Istighfar harian mencuci noda hati." },
+                { q: "Apakah pengajaran utama Pelajaran 7 (Taubat & Khauf)?", options: ["Penyucian jiwa menuju keredhaan dan keampunan Ilahi", "Amalan yang membebankan akal", "Sifat mazmumah manusia", "Sejarah para nabi terdahulu"], answer: 0, explanation: "Penyucian hati landasan kebahagiaan." },
+                { q: "Bagaimana cara mendidik hati supaya takut kepada azab akhirat?", options: ["Mengkaji ayat Al-Quran mengenai balasan neraka", "Menonton filem seram hantu", "Bermain permainan video malam hari", "Mengabaikan nasihat guru agama"], answer: 0, explanation: "Mengkaji Al-Quran melembutkan hati." },
+                { q: "Adakah taubat diterima apabila nyawa sudah sampai di kerongkong?", options: ["Tidak diterima lagi", "Diterima dengan syarat tertentu", "Wajib diterima jika banyak duit", "Diterima separuh jalan"], answer: 0, explanation: "Taubat sakaratul maut tidak diterima." },
+                { q: "Apakah ganjaran bagi pemuda yang hidup taat dan takut kepada Allah?", options: ["Mendapat naungan arasy di akhirat", "Disisihkan masyarakat", "Dimurkai penduduk langit", "Hidup dalam kesusahan"], answer: 0, explanation: "Golongan yang mendapat naungan." },
+                { q: "Mengapa syaitan suka melalaikan manusia daripada bertaubat?", options: ["Supaya manusia sama-sama sesat ke neraka", "Supaya manusia menjadi kaya", "Supaya manusia sihat tubuh badan", "Supaya manusia rajin belajar"], answer: 0, explanation: "Matlamat utama iblis memesongkan manusia." },
+                { q: "Bagaimana cara kita menasihati rakan yang terlanjur buat jahat?", options: ["Menegur dengan hikmah dan mengajak bertaubat", "Membocorkan rahsia keburukannya kepada satu sekolah", "Memulaukan dia selamanya", "Mentertawakannya di media sosial"], answer: 0, explanation: "Nasihat berhikmah menyelamatkan akidah rakan." },
+                { q: "Apakah perbezaan antara takut kepada Allah dan takut kepada harimau?", options: ["Takut kepada Allah dorong ketaatan, takut harimau dorong lari selamat diri", "Tiada sebarang perbezaan makna", "Takut kepada Allah sifat mazmumah", "Takut harimau mendatangkan pahala"], answer: 0, explanation: "Khauf ibadah mendekatkan diri kepada Allah." },
+                { q: "Manakah doa yang sering dibaca untuk keampunan taubat?", options: ["Rabbana atina fid-dunya hasanah...", "Astaghfirullahal 'azim...", "Allahumma inni as'aluka...", "Subhanallah wabihamdihi..."], answer: 1, explanation: "Istighfar kalimah taubat." },
+                { q: "Apakah kesan positif sifat taubat terhadap kesihatan mental?", options: ["Menghilangkan tekanan jiwa dan memberi ketenangan", "Menyebabkan kekeliruan minda", "Meningkatkan rasa cemas melampau", "Menambah penyakit fizikal"], answer: 0, explanation: "Keampunan Allah memberi ketenangan rohani." },
+                { q: "Mengapa Allah mensyariatkan taubat kepada hamba-Nya?", options: ["Kerana manusia sifatnya lemah dan sering melakukan kesilapan", "Kerana Allah suka menyeksa manusia", "Kerana malaikat meminta cuti", "Kerana dunia perlukan hiburan"], answer: 0, explanation: "Kelemahan insan perlukan pintu keampunan." },
+                { q: "Apakah kesimpulan tajuk Sifat Mahmudah (Taubat & Khauf)?", options: ["Dua tiang seri penjaga kesucian hati mukmin sejati", "Amalan yang sukar dicapai", "Sifat purba zaman dahulu", "Teori falsafah semata-mata"], answer: 0, explanation: "Taubat dan khauf menyucikan jiwa." }
+            ],
+            8: [
+                { q: "Apakah pengertian Sharah Al-Ta'am (Gelojoh Makan) dalam silibus JAIS?", options: ["Makan dengan cara tidak sopan dan berlebihan (gelojoh)", "Makan makanan yang berkhasiat tinggi", "Berpuasa sunat pada hari Isnin dan Khamis", "Makan mengikut sunnah Rasulullah SAW"], answer: 0, explanation: "Sharah al-ta'am ialah gelojoh dan berlebihan dalam pemakanan." },
+                { q: "Surah Al-A'raf ayat 31 melarang umat Islam daripada melakukan perkara apa ketika makan?", options: ["Makan berlebih-lebihan (israf / membazir)", "Makan menggunakan sudu tangan kanan", "Makan makanan halal dan berzat", "Makan secara berkumpulan"], answer: 0, explanation: "Ayat 31 surah Al-A'raf melarang sikap membazir dan melampau." },
+                { q: "Apakah akibat buruk sifat gelojoh makan (Sharah Al-Ta'am) kepada kesihatan?", options: ["Menyihatkan tubuh badan dan minda", "Menjejaskan kesihatan fizikal dan mendatangkan penyakit", "Menjadikan badan ringan dan cergas", "Memanjangkan umur seseorang"], answer: 1, explanation: "Kelebihan makan merosakkan sistem pencernaan dan kesihatan." },
+                { q: "Apakah pengertian Sharah Al-Kalam (Banyak Cakap Kosong) dalam unit 2?", options: ["Suka bercakap banyak pada perkara tidak berfaedah", "Berdiam diri sepanjang hari", "Suka membaca buku ilmiah di perpustakaan", "Berzikir menyebut nama Allah di masjid"], answer: 0, explanation: "Sharah al-kalam ialah banyak cakap kosong dan sia-sia." },
+                { q: "Surah Al-Nisa' ayat 114 menerangkan bahawa kebanyakan perbualan manusia adalah sia-sia, KECUALI...", options: ["Perbualan menyuruh bersedekah, berbuat makruf atau mendamaikan manusia", "Perbualan mengumpat dan mencaci kawan", "Perbualan menyebar fitnah di media sosial", "Perbualan kosong di kedai kopi"], answer: 0, explanation: "Kecuali ucapan sedekah, kebaikan dan perdamaian." },
+                { q: "Apakah akibat buruk sifat Sharah Al-Kalam kepada kehidupan seharian?", options: ["Mendapat pahala sunat yang besar", "Mendapat azab, membuang masa dan menimbulkan pergaduhan", "Disayangi oleh para guru di sekolah", "Melahirkan masyarakat yang berilmu tinggi"], answer: 1, explanation: "Banyak cakap kosong mengundang permusuhan dan dosa." },
+                { q: "Bagaimanakah cara merawat sifat Sharah Al-Ta'am dalam diri?", options: ["Makan dengan gelojoh tanpa henti", "Makan secara sederhana dan mengikut sunnah nabi", "Membuang semua makanan ke dalam tong sampah", "Tidak makan langsung selama seminggu"], answer: 1, explanation: "Amalan pemakanan sederhana (sederhana mengikut sunnah)." },
+                { q: "Bagaimanakah cara mengatasi sifat Sharah Al-Kalam?", options: ["Bercakap sesuka hati tanpa memikirkan kesannya", "Berfikir dahulu sebelum bercakap serta banyakkan zikir", "Menjerit di kawasan perumahan", "Memarahi semua orang di sekeliling"], answer: 1, explanation: "Berfikir sebelum berkata-kata mengelakkan noda lisan." },
+                { q: "Apakah hukum amalan membazir dalam pemakanan di sisi Islam?", options: ["Haram dan disukai syaitan", "Sunat muakad", "Makruh ringan", "Harus"], answer: 0, explanation: "Pembaziran adalah saudara syaitan." },
+                { q: "Apakah peribahasa tentang menjaga percakapan supaya tidak terlanjur?", options: ["Terlanjur perahu boleh diundur, terlanjur kata buruk padahnya", "Bagai aur dengan tebing", "Sediakan payung sebelum hujan", "Kalah jadi arang menang jadi abu"], answer: 0, explanation: "Kecuaian lisan membawa binasa." },
+                { q: "Mengapa Islam melarang umatnya makan sehingga terlalu kenyang?", options: ["Supaya badan menjadi malas dan lalai beribadat", "Supaya makanan cepat habis di pasaran", "Supaya peniaga gerai untung besar", "Supaya kita menjadi kurus kering"], answer: 0, explanation: "Kekenyangan berlebihan melahirkan kemalasan beribadat." },
+                { q: "Apakah adab makan yang diajar oleh Rasulullah SAW dalam hadis?", options: ["Makan dengan tangan kanan, baca basmalah dan ambil yang dekat", "Makan dengan tangan kiri sambil berdiri", "Makan gelojoh secepat kilat", "Makan tanpa membaca nama Allah"], answer: 0, explanation: "Sunnah makan tangan kanan dan basmalah." },
+                { q: "Bagaimana kesan buruk Sharah Al-Kalam terhadap kerjaya atau pelajaran murid?", options: ["Menumpukan perhatian sepenuhnya", "Melalaikan tugas utama kerana asyik bersembang kosong", "Mendapat nombor satu kelas", "Dipuji guru cemerlang"], answer: 1, explanation: "Bual kosong merosakkan fokus belajar." },
+                { q: "Apakah balasan bagi orang yang suka mencaci dan banyak cakap kosong di akhirat?", options: ["Dimasukkan ke dalam syurga tertinggi", "Mendapat azab yang pedih akibat dosa lisan", "Diberi mahkota keemasan", "Dibebaskan daripada sebarang hisab"], answer: 1, explanation: "Dosa lisan dihisab dengan ketat." },
+                { q: "Manakah berikut adalah contoh perbuatan Sharah Al-Kalam?", options: ["Membaca Al-Quran di surau", "Berbual hal keburukan orang lain berjam-jam lamanya", "Mengulang kaji subjek sains", "Berbincang kerja sekolah bersama guru"], answer: 1, explanation: "Mengumpat dan bersembang kosong adalah sharah kalam." },
+                { q: "Apakah kaitan antara gelojoh makan dan penyakit moden?", options: ["Mencegah pelbagai penyakit kronik", "Menyebabkan obesiti, kencing manis dan sakit jantung", "Menyihatkan jantung dengan baik", "Menjadikan badan tahan lasak"], answer: 1, explanation: "Makan berlebihan membawa penyakit kronik." },
+                { q: "Bagaimana cara Islam mengajar kita mengawal nafsu makan?", options: ["Melalui ibadat puasa sunat dan wajib", "Dengan makan tanpa henti siang malam", "Dengan memuntahkan semula makanan", "Dengan melarang semua jenis lauk pauk"], answer: 0, explanation: "Puasa mendidik disiplin nafsu pemakanan." },
+                { q: "Mengapa sifat mazmumah (keji) wajib dijauhi oleh setiap mukmin?", options: ["Kerana ia merosakkan akhlak dan mengundang murka Allah", "Kerana ia diwajibkan oleh undang-undang", "Kerana ia lambang kemodenan", "Kerana tiada sesiapa tegur"], answer: 0, explanation: "Mazmumah merosakkan rohani." },
+                { q: "Apakah pengajaran utama Pelajaran 8 (Sifat Mazmumah - Sharah Al-Ta'am & Kalam)?", options: ["Menjauhi gelojoh makan dan banyak cakap kosong demi kesucian peribadi", "Mengamalkan sikap membazir", "Bercakap tanpa had batasan", "Makan sebanyak mungkin"], answer: 0, explanation: "Menjauhi sifat tercela memelihara maruah." },
+                { q: "Bagaimana penawar mujarab bagi penyakit lisan (banyak cakap)?", options: ["Banyakkan berdiam diri kecuali berkata perkara baik", "Bercakap lebih kuat di tempat awam", "Menyebarkan rahsia orang lain", "Mencemuh rakan sekolah"], answer: 0, explanation: "Diam lebih baik daripada kata sia-sia." },
+                { q: "Adakah dibenarkan membazir makanan dalam majlis kenduri besar?", options: ["Boleh kerana sudah bayar", "Haram dan dibenci Allah walau dalam kenduri", "Sunat dilakukan", "Harus dihalalkan"], answer: 1, explanation: "Pembaziran haram dalam apa jua keadaan." },
+                { q: "Apakah maksud hadis larangan minum sekali teguk seperti unta?", options: ["Minum perlahan-lahan 2 atau 3 tegukan berselang seli", "Minum seteguk besar hingga habis", "Jangan minum langsung air kosong", "Minum menggunakan straw panjang"], answer: 0, explanation: "Sunnah bernafas di luar bekas air sebanyak 3 kali tegukan." },
+                { q: "Bagaimana sikap murid yang menjauhi sifat mazmumah pemakanan?", options: ["Bersyukur, beradab dan tidak mencela makanan", "Membuang lauk tidak sedap", "Marah jika makanan lambat siap", "Berebut makanan di kantin"], answer: 0, explanation: "Adab terhadap rezeki kurniaan Ilahi." },
+                { q: "Apakah akibat buruk apabila murid gemar menyebarkan berita tidak sahih?", options: ["Menimbulkan fitnah dan kekecohan masyarakat", "Mendapat ganjaran wartawan cemerlang", "Membahagiakan semua penduduk", "Menyatukan kaum keluarga"], answer: 0, explanation: "Berita palsu memecahbelah keamanan." },
+                { q: "Manakah kata hikmah yang berkaitan dengan penjagaan lidah?", options: ["Keselamatan manusia terletak pada penjagaan lidahnya", "Biar lambat asal selamat", "Malu bertanya sesat jalan", "Genggam bara api biar sampai jadi abu"], answer: 0, explanation: "Lidah penjaga keselamatan peribadi." },
+                { q: "Mengapa kita digalakkan membaca doa sebelum dan selepas makan?", options: ["Sebagai tanda syukur dan memohon berkat daripada Allah", "Supaya makanan bertambah banyak", "Supaya tidak bising ketika makan", "Supaya cepat kenyang"], answer: 0, explanation: "Doa menolak gangguan syaitan dan memberi berkat." },
+                { q: "Apakah akibat buruk gelojoh makan ketika jamuan sekolah?", options: ["Menyusahkan rakan lain daripada mendapat makanan", "Dipuji sebagai pemakan terpantas", "Mendapat pingat emas sukan", "Menambah disiplin sekolah"], answer: 0, explanation: "Sikap mementingkan diri ketika makan." },
+                { q: "Bagaimana cara melatih diri supaya tidak banyak bercakap perkara lagha?", options: ["Menyibukkan diri dengan ibadat, ilmu dan kerja bermanfaat", "Tidur sepanjang hari di sekolah", "Memarahi rakan yang bersuara", "Keluar dari kelas agama"], answer: 0, explanation: "Mengisi masa dengan amal soleh." },
+                { q: "Apakah balasan di dunia bagi pengamal sifat mazmumah pemakanan dan lisan?", options: ["Hilang keberkatan hidup dan dipandang serong", "Sentiasa disanjung tinggi pembesar", "Kaya raya tanpa usaha", "Dimurkai polis bantuan"], answer: 0, explanation: "Mazmumah menjatuhkan maruah diri." },
+                { q: "Apakah kesimpulan keseluruhan silibus Akhlak Tahun 4 JAIS?", options: ["Membentuk murid berakhlak mulia, bertakwa serta cemerlang dunia akhirat", "Hanya untuk lulus peperiksaan bertulis semata", "Syarat wajib masuk sekolah menengah", "Tiada kaitan dengan kehidupan harian"], answer: 0, explanation: "Akhlak mulia matlamat utusan Rasulullah SAW." }
+            ]
+        };
+
+        /* Generate Mixed Quiz */
+        function generateFullMixedQuiz() {
+            let mixed = [];
+            for (let l = 1; l <= 8; l++) {
+                for (let i = 0; i < 3; i++) {
+                    if (quizBank[l] && quizBank[l][i]) {
+                        mixed.push(quizBank[l][i]);
+                    }
+                }
+            }
+            for (let i = 3; i < 9; i++) {
+                if (quizBank[1][i]) mixed.push(quizBank[1][i]);
+            }
+            return mixed;
+        }
+        quizBank.mix = generateFullMixedQuiz();
+
+        let currentTab = 'nota';
+        let currentFlashcardLesson = 1;
+        let currentFlashcardIndex = 0;
+        let isFlashcardFlipped = false;
+
+        let activeQuizKey = 'mix';
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let userAnswers = {};
+        let score = 0;
+
+        window.onload = function() {
+            renderNotes();
+            populateFlashcardDropdown();
+            renderFlashcard();
+            populateQuizMenu();
+        };
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-sm');
+                btn.classList.add('text-emerald-100', 'hover:bg-emerald-800/60');
+            });
+
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('text-emerald-100', 'hover:bg-emerald-800/60');
+            activeBtn.classList.add('bg-emerald-700', 'text-white', 'shadow-sm');
+        }
+
+        /* Render Notes */
+        function renderNotes() {
+            const container = document.getElementById('lessons-container');
+            container.innerHTML = lessonsData.map((lesson) => `
+                <div class="border border-emerald-200 rounded-2xl overflow-hidden bg-emerald-50/40 shadow-sm transition-all">
+                    <button onclick="toggleAccordion(${lesson.id})" class="w-full px-5 py-4 flex items-center justify-between bg-white hover:bg-emerald-50/60 transition-all text-left">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-lg shadow-sm">Pelajaran ${lesson.id}</span>
+                            <span class="font-bold text-emerald-900 text-sm sm:text-base">${lesson.title}</span>
+                        </div>
+                        <i id="acc-icon-${lesson.id}" class="fa-solid fa-chevron-down text-emerald-700 transition-transform duration-300"></i>
+                    </button>
+                    <div id="acc-content-${lesson.id}" class="hidden p-5 bg-white border-t border-emerald-100 space-y-3 text-sm text-gray-700">
+                        <p class="font-medium text-emerald-800"><i class="fa-solid fa-circle-info mr-2 text-emerald-600"></i>${lesson.description}</p>
+                        <div class="space-y-2 mt-3">
+                            <h4 class="font-bold text-xs uppercase tracking-wider text-emerald-900">Fakta Penting Silibus JAIS:</h4>
+                            <ul class="list-disc pl-5 space-y-1.5 text-gray-600">
+                                ${lesson.fakta.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-500 flex items-center">
+                            <i class="fa-solid fa-calendar-days mr-1.5 text-emerald-600"></i>
+                            <span>Kronologi / Nota Tambahan: <strong class="text-gray-700">${lesson.tarikhKronologi}</strong></span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(`acc-content-${id}`);
+            const icon = document.getElementById(`acc-icon-${id}`);
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        /* Flashcards Logic */
+        function populateFlashcardDropdown() {
+            const select = document.getElementById('flashcard-lesson-select');
+            select.innerHTML = lessonsData.map(l => `<option value="${l.id}">${l.title}</option>`).join('');
+        }
+
+        function changeFlashcardLesson(val) {
+            currentFlashcardLesson = parseInt(val);
+            currentFlashcardIndex = 0;
+            isFlashcardFlipped = false;
+            renderFlashcard();
+        }
+
+        function renderFlashcard() {
+            const cards = flashcardsData[currentFlashcardLesson];
+            const card = cards[currentFlashcardIndex];
+            
+            document.getElementById('flashcard-counter').innerText = `Kad ${currentFlashcardIndex + 1} daripada ${cards.length}`;
+            document.getElementById('flashcard-tag').innerText = `Pelajaran ${currentFlashcardLesson}`;
+            document.getElementById('flashcard-content-title').innerText = isFlashcardFlipped ? "Jawapan" : "Soalan";
+            document.getElementById('flashcard-text').innerText = isFlashcardFlipped ? card.a : card.q;
+            document.getElementById('flashcard-side-label').innerText = isFlashcardFlipped ? "Jawapan Rasmi" : "Soalan";
+
+            const box = document.getElementById('flashcard-box');
+            if (isFlashcardFlipped) {
+                box.className = "bg-gradient-to-br from-teal-800 to-teal-950 text-white rounded-2xl p-8 sm:p-10 shadow-lg cursor-pointer min-h-[260px] flex flex-col justify-between transition-transform duration-300 hover:scale-[1.01] relative overflow-hidden border border-teal-600";
+            } else {
+                box.className = "bg-gradient-to-br from-emerald-800 to-emerald-950 text-white rounded-2xl p-8 sm:p-10 shadow-lg cursor-pointer min-h-[260px] flex flex-col justify-between transition-transform duration-300 hover:scale-[1.01] relative overflow-hidden border border-emerald-700";
+            }
+        }
+
+        function flipFlashcard() {
+            isFlashcardFlipped = !isFlashcardFlipped;
+            renderFlashcard();
+        }
+
+        function nextFlashcard() {
+            const cards = flashcardsData[currentFlashcardLesson];
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % cards.length;
+            isFlashcardFlipped = false;
+            renderFlashcard();
+        }
+
+        function prevFlashcard() {
+            const cards = flashcardsData[currentFlashcardLesson];
+            currentFlashcardIndex = (currentFlashcardIndex - 1 + cards.length) % cards.length;
+            isFlashcardFlipped = false;
+            renderFlashcard();
+        }
+
+        function resetFlashcards() {
+            currentFlashcardIndex = 0;
+            isFlashcardFlipped = false;
+            renderFlashcard();
+        }
+
+        /* Quiz Logic */
+        function populateQuizMenu() {
+            const container = document.getElementById('quiz-options-list');
+            let html = `
+                <button onclick="startQuiz('mix')" class="w-full text-left bg-white hover:bg-emerald-100/70 border border-emerald-200 p-3.5 rounded-xl font-medium text-emerald-900 flex items-center justify-between transition-all shadow-sm">
+                    <span class="flex items-center"><i class="fa-solid fa-shuffle text-emerald-600 mr-2.5"></i> Semua Tajuk Campuran (30 Soalan)</span>
+                    <i class="fa-solid fa-arrow-right text-emerald-700 text-sm"></i>
+                </button>
+            `;
+            lessonsData.forEach(l => {
+                html += `
+                    <button onclick="startQuiz(${l.id})" class="w-full text-left bg-white hover:bg-emerald-100/70 border border-emerald-200 p-3.5 rounded-xl font-medium text-emerald-900 flex items-center justify-between transition-all shadow-sm">
+                        <span class="flex items-center"><i class="fa-solid fa-book-open-reader text-emerald-600 mr-2.5"></i> ${l.title} (30 Soalan)</span>
+                        <i class="fa-solid fa-arrow-right text-emerald-700 text-sm"></i>
+                    </button>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function startQuiz(key) {
+            activeQuizKey = key;
+            quizQuestions = JSON.parse(JSON.stringify(quizBank[key]));
+            currentQuizIndex = 0;
+            userAnswers = {};
+            score = 0;
+
+            document.getElementById('quiz-menu-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-active-screen').classList.remove('hidden');
+
+            if (key === 'mix') {
+                document.getElementById('quiz-active-title').innerText = "Mod Pentaksiran Rasmi";
+                document.getElementById('quiz-active-subtitle').innerText = "Semua Tajuk Campuran (30 Soalan)";
+            } else {
+                const l = lessonsData.find(item => item.id === key);
+                document.getElementById('quiz-active-title').innerText = `Pelajaran ${l.id}`;
+                document.getElementById('quiz-active-subtitle').innerText = l.title;
+            }
+
+            document.getElementById('total-q-num').innerText = quizQuestions.length;
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('current-q-num').innerText = currentQuizIndex + 1;
+            document.getElementById('current-score').innerText = score;
+            document.getElementById('question-text').innerText = q.q;
+
+            const savedAnswer = userAnswers[currentQuizIndex];
+            const optionsContainer = document.getElementById('options-container');
+            const explanationBox = document.getElementById('explanation-box');
+
+            optionsContainer.innerHTML = q.options.map((opt, idx) => {
+                const letter = String.fromCharCode(65 + idx);
+                let btnClass = "w-full text-left p-3.5 rounded-xl border border-gray-200 font-medium text-sm transition-all flex items-center justify-between bg-white hover:bg-emerald-50/50 text-gray-800";
+
+                if (savedAnswer !== undefined) {
+                    if (idx === q.answer) {
+                        btnClass = "w-full text-left p-3.5 rounded-xl border border-emerald-500 font-medium text-sm transition-all flex items-center justify-between bg-emerald-50 text-emerald-900 shadow-sm";
+                    } else if (idx === savedAnswer && savedAnswer !== q.answer) {
+                        btnClass = "w-full text-left p-3.5 rounded-xl border border-red-400 font-medium text-sm transition-all flex items-center justify-between bg-red-50 text-red-900 shadow-sm";
+                    } else {
+                        btnClass = "w-full text-left p-3.5 rounded-xl border border-gray-200 font-medium text-sm transition-all flex items-center justify-between bg-gray-50 text-gray-400 opacity-60";
+                    }
+                }
+
+                return `
+                    <button onclick="selectQuizOption(${idx})" ${savedAnswer !== undefined ? 'disabled' : ''} class="${btnClass}">
+                        <span class="flex items-center space-x-3">
+                            <span class="font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded text-xs">${letter}.</span>
+                            <span>${opt}</span>
+                        </span>
+                    </button>
+                `;
+            }).join('');
+
+            if (savedAnswer !== undefined) {
+                explanationBox.classList.remove('hidden');
+                document.getElementById('explanation-text').innerText = q.explanation;
+                if (savedAnswer === q.answer) {
+                    document.getElementById('explanation-icon').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                } else {
+                    document.getElementById('explanation-icon').innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500"></i>`;
+                }
+            } else {
+                explanationBox.classList.add('hidden');
+            }
+
+            const nextBtnText = document.getElementById('next-btn-text');
+            if (currentQuizIndex === quizQuestions.length - 1) {
+                nextBtnText.innerText = "Keputusan Akhir";
+            } else {
+                nextBtnText.innerText = "Seterusnya";
+            }
+        }
+
+        function selectQuizOption(idx) {
+            if (userAnswers[currentQuizIndex] !== undefined) return;
+
+            userAnswers[currentQuizIndex] = idx;
+            const q = quizQuestions[currentQuizIndex];
+            if (idx === q.answer) {
+                score++;
+            }
+            renderQuizQuestion();
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function prevQuizQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuizQuestion();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-active-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+
+            const total = quizQuestions.length;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('result-percentage').innerText = `${percentage}%`;
+            document.getElementById('result-score-fraction').innerText = `${score} / ${total}`;
+        }
+
+        function restartCurrentQuiz() {
+            startQuiz(activeQuizKey);
+        }
+
+        function backToQuizMenu() {
+            document.getElementById('quiz-active-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-menu-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
